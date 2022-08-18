@@ -1,16 +1,30 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { useContext } from 'react';
+import StarWarsContext from '../context/StarWarsContext';
+// import PropTypes from 'prop-types';
+import Input from './Input';
 
-const Forms = props => {
+const Forms = () => {
+  const {
+    setFilters: { setSearchPlanet },
+    getFilters: { getSearchPlanet },
+  } = useContext(StarWarsContext);
+
   return (
     <section>
-      table
+      <Input
+        name="searchPlanet"
+        type="text"
+        value={ getSearchPlanet }
+        onChange={ ({ target: { value } }) => setSearchPlanet(value) }
+        data-testid="name-filter"
+      >
+        Search for a planet:
+      </Input>
     </section>
   );
 };
 
-Forms.propTypes = {
-  
-};
+// Forms.propTypes = {
+// };
 
 export default Forms;

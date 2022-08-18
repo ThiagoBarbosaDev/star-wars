@@ -7,8 +7,8 @@ import StarWarsProvider from './context/StarWarsProvider';
 function App() {
   return (
     <StarWarsProvider>
-      <Forms/>
-      <Table/>
+      <Forms />
+      <Table />
     </StarWarsProvider>
   );
 }
