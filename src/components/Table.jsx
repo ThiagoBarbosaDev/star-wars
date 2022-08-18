@@ -4,8 +4,8 @@ import StarWarsContext from '../context/StarWarsContext';
 import TableRow from './TableRow';
 
 const Table = () => {
-  const { getPlanetData, isLoading, data } = useContext(StarWarsContext);
-  console.log(data, getPlanetData);
+  const { planetData, isLoading, data } = useContext(StarWarsContext);
+  console.log(data, planetData);
 
   const renderRows = () => data
     .map((planetObject) => (

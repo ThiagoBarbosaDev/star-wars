@@ -2,30 +2,94 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import StarWarsContext from './StarWarsContext';
 import useGetPlanets from '../hooks/useGetPlanets';
-import useFilterData from '../hooks/useFilterData';
+// import useFilterData from '../hooks/useFilterData';
 
+// const HEADERS = {
+//   Population: 'population',
+//   'Orbital Period': 'orbital_period',
+//   Diameter: 'diameter',
+//   'Rotation Period': 'rotation_period',
+//   'Surface Water': 'surface_water',
+// };
 function StarWarsProvider({ children }) {
-  const [getSearchPlanet, setSearchPlanet] = useState('');
-  const [getPlanetData, setPlanetData, isLoading] = useGetPlanets();
-  const [getFilterData] = useFilterData(
-    getSearchPlanet,
-    getPlanetData,
-    setPlanetData,
-  );
+  const [searchPlanet, setSearchPlanet] = useState('');
+  const [numericFilterHeading, setNumericFilterHeading] = useState('population');
+  const [operator, setOperator] = useState('maior que');
+  const [numericFilter, setNumericFilter] = useState('0');
+  const [isFilteredByNumber, setIsFilteredByNumber] = useState(false);
 
-  const data = getFilterData.length ? getFilterData : getPlanetData;
+  const [planetData, setPlanetData, isLoading] = useGetPlanets();
+  // const [getFilterData] = useFilterData(
+  //   searchPlanet,
+  //   planetData,
+  //   setPlanetData,
+  // );
+
+  const applySearchFilter = (data) => data.filter(({ name }) => name
+    .includes(searchPlanet));
+
+  const applyNumericFilter = (arrayOfObjects) => {
+    const filteredData = arrayOfObjects.filter((object) => {
+      const objectValue = object[numericFilterHeading];
+      const isValueKnown = objectValue !== 'unknown';
+      if (isValueKnown) {
+        const parsedObjectValue = parseInt(objectValue, 10);
+        const parsedNumericFilter = parseInt(numericFilter, 10);
+        const parsedFilters = {
+          'maior que': parsedObjectValue > parsedNumericFilter,
+          'menor que': parsedObjectValue < parsedNumericFilter,
+          'igual a': parsedObjectValue === parsedNumericFilter,
+        };
+        console.log(parsedObjectValue);
+        const isFilterTrue = parsedFilters[operator];
+        return isFilterTrue;
+      } return false;
+    });
+    return filteredData;
+  };
+  // const applyNumericFilter = (arrayOfObjects) => {
+  //   const parsedHeading = HEADERS[numericFilterHeading];
+  //   const filteredData = arrayOfObjects.filter((object) => {
+  //     const objectValue = object[parsedHeading];
+  //     const isValueKnown = objectValue !== 'unknown';
+  //     if (isValueKnown) {
+  //       const parsedObjectValue = parseInt(objectValue, 10);
+  //       const parsedNumericFilter = parseInt(numericFilter, 10);
+  //       const parsedFilters = {
+  //         '>': parsedObjectValue > parsedNumericFilter,
+  //         '<': parsedObjectValue < parsedNumericFilter,
+  //         '=': parsedObjectValue === parsedNumericFilter,
+  //       };
+  //       const isFilterTrue = parsedFilters[operator];
+  //       return isFilterTrue;
+  //     } return false;
+  //   });
+  //   return filteredData;
+  // };
+
+  // const data = getFilterData.length ? getFilterData : planetData;
+  const data = searchPlanet ? applySearchFilter(planetData) : planetData;
+  const data2 = isFilteredByNumber ? applyNumericFilter(data) : data;
 
   const context = {
     setFilters: {
       setSearchPlanet,
+      setNumericFilterHeading,
+      setOperator,
+      setNumericFilter,
+      setIsFilteredByNumber,
     },
     getFilters: {
-      getSearchPlanet,
+      searchPlanet,
+      numericFilterHeading,
+      operator,
+      numericFilter,
+      isFilteredByNumber,
     },
     setPlanetData,
-    getPlanetData,
+    planetData,
     isLoading,
-    data,
+    data: data2,
   };
 
   return (

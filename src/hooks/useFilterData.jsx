@@ -1,16 +1,15 @@
 import { useEffect, useState } from 'react';
 
-const useFilterData = (getSearchPlanet, getPlanetData) => {
+const useFilterData = (searchPlanet, planetData) => {
   const [getFilterData, setFilterData] = useState([]);
 
   useEffect(() => {
     const filterName = () => {
-      console.log('filterName: ', getSearchPlanet, getPlanetData);
-      setFilterData(() => getPlanetData
-        .filter((planet) => planet.name.includes(getSearchPlanet)));
+      setFilterData(() => planetData
+        .filter((planet) => planet.name.includes(searchPlanet)));
     };
     filterName();
-  }, [getSearchPlanet]);
+  }, [searchPlanet]);
 
   return [getFilterData, setFilterData];
 };
