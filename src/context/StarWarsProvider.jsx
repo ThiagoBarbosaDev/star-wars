@@ -14,12 +14,13 @@ function StarWarsProvider({ children }) {
 
   const [selectOptions, setSelectOptions] = useState(SELECT_OPTIONS);
 
-  const [isFilteredByNumber, setIsFilteredByNumber] = useState([]);
+  const [usedFilterHeadings, setUsedFilterHeadings] = useState([]);
 
   const [filtersByNumbers, setFiltersByNumbers] = useState([]);
 
   const [planetData, setPlanetData, isLoading] = useGetPlanets();
 
+  // idéia para o requisito 4
   // const [filterOne, setFilterOne] = useState([]);
   // const [filterTwo, setFilterTwo] = useState([]);
   // const [filterThree, setFilterThree] = useState([]);
@@ -33,43 +34,48 @@ function StarWarsProvider({ children }) {
   const data2 = filtersByNumbers.length ? filtersByNumbers.at(lastIndex) : data;
 
   useEffect(() => {
-    // const populationFilter = isFilteredByNumber.at(lastArray).includes(SELECT_OPTIONS[0])
+    // idéia para o requisito4
+    // const populationFilter = usedFilterHeadings.at(lastArray).includes(SELECT_OPTIONS[0])
     //   ? setFilterOne(applyNumericFilter(data)) : [...data];
     // // console.log('1', populationFilter);
 
-    // const orbitalPeriodFilter = isFilteredByNumber.includes(SELECT_OPTIONS[1])
+    // const orbitalPeriodFilter = usedFilterHeadings.includes(SELECT_OPTIONS[1])
     //   ? [...applyNumericFilter(populationFilter)] : [...populationFilter];
     // // console.log('2', orbitalPeriodFilter);
 
-    // const diameterFilter = isFilteredByNumber.includes(SELECT_OPTIONS[2])
+    // const diameterFilter = usedFilterHeadings.includes(SELECT_OPTIONS[2])
     //   ? [...applyNumericFilter(orbitalPeriodFilter)] : [...orbitalPeriodFilter];
     // // console.log('3', diameterFilter);
 
-    // const rotationPeriodFilter = isFilteredByNumber.includes(SELECT_OPTIONS[3])
+    // const rotationPeriodFilter = usedFilterHeadings.includes(SELECT_OPTIONS[3])
     //   ? [...applyNumericFilter(diameterFilter)] : [...diameterFilter];
     // // console.log('4', rotationPeriodFilter);
 
-    // const surfaceWaterFilter = isFilteredByNumber.includes(SELECT_OPTIONS[4])
+    // const surfaceWaterFilter = usedFilterHeadings.includes(SELECT_OPTIONS[4])
     //   ? [...applyNumericFilter(rotationPeriodFilter)] : [...rotationPeriodFilter];
     // // console.log('5', surfaceWaterFilter);
 
-    console.log(filtersByNumbers);
-  }, [isFilteredByNumber]);
-
+    // idéia para o requisito 6
+    const notUsedFilterHeading = SELECT_OPTIONS
+      .filter((option) => !usedFilterHeadings.includes(option));
+    console.log(notUsedFilterHeading, usedFilterHeadings);
+    if (usedFilterHeadings) { setSelectOptions(notUsedFilterHeading); }
+    if (usedFilterHeadings) { setNumericFilterHeading(notUsedFilterHeading[0]); }
+  }, [usedFilterHeadings]);
   const context = {
     setFilters: {
       setSearchPlanet,
       setNumericFilterHeading,
       setOperator,
       setNumericFilter,
-      setIsFilteredByNumber,
+      setUsedFilterHeadings,
     },
     getFilters: {
       searchPlanet,
       numericFilterHeading,
       operator,
       numericFilter,
-      isFilteredByNumber,
+      usedFilterHeadings,
     },
     setPlanetData,
     planetData,

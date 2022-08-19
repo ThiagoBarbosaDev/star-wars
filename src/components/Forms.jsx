@@ -22,14 +22,14 @@ const Forms = () => {
       setNumericFilterHeading,
       setOperator,
       setNumericFilter,
-      setIsFilteredByNumber,
+      setUsedFilterHeadings,
     },
     getFilters: {
       searchPlanet,
       numericFilterHeading,
       operator,
       numericFilter,
-      isFilteredByNumber,
+      usedFilterHeadings,
     },
     selectOptions,
     setFiltersByNumbers,
@@ -38,20 +38,23 @@ const Forms = () => {
   } = useContext(StarWarsContext);
 
   const handleFilter = () => {
-    setIsFilteredByNumber([...isFilteredByNumber, numericFilterHeading]);
+    setUsedFilterHeadings([...usedFilterHeadings, numericFilterHeading]);
     const areTherePreviousFilters = filtersByNumbers.length;
     const lastIndex = -1;
     const dataToFilter = areTherePreviousFilters ? filtersByNumbers.at(lastIndex) : data;
-    console.log(areTherePreviousFilters);
     const filteredData = applyNumericFilter(
       dataToFilter, numericFilterHeading, numericFilter, operator,
     );
     setFiltersByNumbers([...filtersByNumbers, filteredData]);
+    // idéia para o requisito 6
+    // const filteredOption = selectOptions
+    //   .filter((option) => !option.includes(numericFilterHeading));
+    // setSelectOptions(filteredOption);
   };
 
   return (
     <section>
-      { !!isFilteredByNumber.length && <div> isfiltered by num </div> }
+      { !!usedFilterHeadings.length && <div> isfiltered by num </div> }
       <Input
         name="search-planet"
         type="text"
