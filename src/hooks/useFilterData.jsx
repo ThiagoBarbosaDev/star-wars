@@ -1,17 +1,34 @@
 import { useEffect, useState } from 'react';
 
-const useFilterData = (searchPlanet, planetData) => {
-  const [getFilterData, setFilterData] = useState([]);
+const useFilterData = (data, numericFilterHeading, numericFilter, operator) => {
+  const [filterData, setFilterData] = useState([]);
+
+  const applyNumericFilter = (arrayOfObjects) => {
+    const filteredData = arrayOfObjects.filter((object) => {
+      const objectValue = object[numericFilterHeading];
+      const isValueKnown = objectValue !== 'unknown';
+      if (isValueKnown) {
+        const parsedObjectValue = parseInt(objectValue, 10);
+        const parsedNumericFilter = parseInt(numericFilter, 10);
+        const parsedFilters = {
+          'maior que': parsedObjectValue > parsedNumericFilter,
+          'menor que': parsedObjectValue < parsedNumericFilter,
+          'igual a': parsedObjectValue === parsedNumericFilter,
+        };
+        const isFilterTrue = parsedFilters[operator];
+        return isFilterTrue;
+      } return false;
+    });
+    return filteredData;
+  };
 
   useEffect(() => {
-    const filterName = () => {
-      setFilterData(() => planetData
-        .filter((planet) => planet.name.includes(searchPlanet)));
-    };
-    filterName();
+    const filteredData = applyNumericFilter(data);
+    setFilterData(filteredData);
+    console.log(filterData);
   }, [searchPlanet]);
 
-  return [getFilterData, setFilterData];
+  return [filterData, setFilterData];
 };
 
 export default useFilterData;

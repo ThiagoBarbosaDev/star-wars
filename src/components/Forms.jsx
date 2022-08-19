@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import StarWarsContext from '../context/StarWarsContext';
+import applyNumericFilter from '../helpers/applyNumericFilter';
 import Button from './Button';
 import ComboBox from './ComboBox';
 // import PropTypes from 'prop-types';
@@ -8,8 +9,8 @@ import Input from './Input';
 // const SELECT_OPTIONS = ['Population',
 //   'Orbital Period', 'Diameter', 'Rotation Period', 'Surface Water'];
 
-const SELECT_OPTIONS = ['population',
-  'orbital_period', 'diameter', 'rotation_period', 'surface_water'];
+// const SELECT_OPTIONS = ['population',
+//   'orbital_period', 'diameter', 'rotation_period', 'surface_water'];
 
 // const OPERATORS = ['>', '<', '='];
 const OPERATORS = ['maior que', 'menor que', 'igual a'];
@@ -30,11 +31,27 @@ const Forms = () => {
       numericFilter,
       isFilteredByNumber,
     },
+    selectOptions,
+    setFiltersByNumbers,
+    filtersByNumbers,
+    data,
   } = useContext(StarWarsContext);
+
+  const handleFilter = () => {
+    setIsFilteredByNumber([...isFilteredByNumber, numericFilterHeading]);
+    const areTherePreviousFilters = filtersByNumbers.length;
+    const lastIndex = -1;
+    const dataToFilter = areTherePreviousFilters ? filtersByNumbers.at(lastIndex) : data;
+    console.log(areTherePreviousFilters);
+    const filteredData = applyNumericFilter(
+      dataToFilter, numericFilterHeading, numericFilter, operator,
+    );
+    setFiltersByNumbers([...filtersByNumbers, filteredData]);
+  };
 
   return (
     <section>
-      { isFilteredByNumber && <div> isfiltered by num </div> }
+      { !!isFilteredByNumber.length && <div> isfiltered by num </div> }
       <Input
         name="search-planet"
         type="text"
@@ -50,7 +67,7 @@ const Forms = () => {
           name="numeric-selector"
           value={ numericFilterHeading }
           onChange={ ({ target: { value } }) => setNumericFilterHeading(value) }
-          data={ SELECT_OPTIONS }
+          data={ selectOptions }
           data-testid="column-filter"
         />
         <ComboBox
@@ -69,7 +86,7 @@ const Forms = () => {
         />
         <Button
           data-testid="button-filter"
-          onClick={ () => setIsFilteredByNumber(true) }
+          onClick={ () => handleFilter() }
         >
           Search
         </Button>
