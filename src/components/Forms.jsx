@@ -1,56 +1,72 @@
 import React, { useContext } from 'react';
 import StarWarsContext from '../context/StarWarsContext';
-import applyNumericFilter from '../helpers/applyNumericFilter';
 import Button from './Button';
 import ComboBox from './ComboBox';
-// import PropTypes from 'prop-types';
 import Input from './Input';
 
-// const SELECT_OPTIONS = ['Population',
-//   'Orbital Period', 'Diameter', 'Rotation Period', 'Surface Water'];
-
-// const SELECT_OPTIONS = ['population',
-//   'orbital_period', 'diameter', 'rotation_period', 'surface_water'];
-
-// const OPERATORS = ['>', '<', '='];
 const OPERATORS = ['maior que', 'menor que', 'igual a'];
+const SELECT_OPTIONS = ['population',
+  'orbital_period', 'diameter', 'rotation_period', 'surface_water'];
 
 const Forms = () => {
   const {
     setFilters: {
-      setSearchPlanet,
-      setNumericFilterHeading,
-      setOperator,
-      setNumericFilter,
+      setSearchPlanetValue,
+      setFilterHeader,
+      setFilterOperator,
+      setFilterValue,
       setUsedFilterHeadings,
+      setUsedFiltersData,
     },
     getFilters: {
-      searchPlanet,
-      numericFilterHeading,
-      operator,
-      numericFilter,
+      searchPlanetValue,
+      filterHeader,
+      filterOperator,
+      filterValue,
       usedFilterHeadings,
+      usedFiltersData,
     },
     selectOptions,
-    setFiltersByNumbers,
-    filtersByNumbers,
     data,
+    setRenderData,
   } = useContext(StarWarsContext);
 
   const handleFilter = () => {
-    setUsedFilterHeadings([...usedFilterHeadings, numericFilterHeading]);
-    const areTherePreviousFilters = filtersByNumbers.length;
-    const lastIndex = -1;
-    const dataToFilter = areTherePreviousFilters ? filtersByNumbers.at(lastIndex) : data;
-    const filteredData = applyNumericFilter(
-      dataToFilter, numericFilterHeading, numericFilter, operator,
-    );
-    setFiltersByNumbers([...filtersByNumbers, filteredData]);
-    // idéia para o requisito 6
-    // const filteredOption = selectOptions
-    //   .filter((option) => !option.includes(numericFilterHeading));
-    // setSelectOptions(filteredOption);
+    setUsedFilterHeadings([...usedFilterHeadings, filterHeader]);
+    const filters = { filterHeader, filterValue, filterOperator };
+    setUsedFiltersData([...usedFiltersData, filters]);
   };
+
+  const handleClearAllFilters = () => {
+    setUsedFilterHeadings([]);
+    setUsedFiltersData([]);
+    setRenderData([]);
+  };
+
+  const usedFilters = SELECT_OPTIONS
+    .filter((option) => usedFilterHeadings
+      .includes(option));
+
+  const handleClearFilter = (header) => {
+    const updatedHeading = usedFilterHeadings.filter((item) => item !== header);
+    const updatedFilterData = usedFiltersData
+      .filter((item) => item.filterHeader !== header);
+
+    setUsedFilterHeadings(updatedHeading);
+    setUsedFiltersData(updatedFilterData);
+  };
+
+  const renderRemoveFilterButtons = () => usedFilters
+    .map((option) => (
+      <button
+        type="button"
+        datatest-id="filter"
+        onClick={ () => handleClearFilter(option) }
+        key={ option }
+      >
+        {option}
+      </button>
+    ));
 
   return (
     <section>
@@ -58,8 +74,8 @@ const Forms = () => {
       <Input
         name="search-planet"
         type="text"
-        value={ searchPlanet }
-        onChange={ ({ target: { value } }) => setSearchPlanet(value) }
+        value={ searchPlanetValue }
+        onChange={ ({ target: { value } }) => setSearchPlanetValue(value) }
         data-testid="name-filter"
       >
         Search for a planet:
@@ -68,23 +84,23 @@ const Forms = () => {
         <legend> Filter By </legend>
         <ComboBox
           name="numeric-selector"
-          value={ numericFilterHeading }
-          onChange={ ({ target: { value } }) => setNumericFilterHeading(value) }
+          value={ filterHeader }
+          onChange={ ({ target: { value } }) => setFilterHeader(value) }
           data={ selectOptions }
           data-testid="column-filter"
         />
         <ComboBox
           name="operator-selector"
-          value={ operator }
-          onChange={ ({ target: { value } }) => setOperator(value) }
+          value={ filterOperator }
+          onChange={ ({ target: { value } }) => setFilterOperator(value) }
           data={ OPERATORS }
           data-testid="comparison-filter"
         />
         <Input
           name="numeric-filter"
           type="number"
-          value={ numericFilter }
-          onChange={ ({ target: { value } }) => setNumericFilter(value) }
+          value={ filterValue }
+          onChange={ ({ target: { value } }) => setFilterValue(value) }
           data-testid="value-filter"
         />
         <Button
@@ -93,12 +109,22 @@ const Forms = () => {
         >
           Search
         </Button>
+        <button
+          type="button"
+          onClick={ () => handleClearAllFilters() }
+          data-testid="button-remove-filters"
+        >
+          Reset Filters
+        </button>
+      </fieldset>
+      <fieldset>
+        <legend>Used Filters</legend>
+        <div data-testid="filter">
+          { renderRemoveFilterButtons() }
+        </div>
       </fieldset>
     </section>
   );
 };
-
-// Forms.propTypes = {
-// };
 
 export default Forms;

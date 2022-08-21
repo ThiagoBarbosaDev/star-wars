@@ -2,89 +2,80 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import StarWarsContext from './StarWarsContext';
 import useGetPlanets from '../hooks/useGetPlanets';
+import applyNumericFilter from '../helpers/applyNumericFilter';
 
 const SELECT_OPTIONS = ['population',
   'orbital_period', 'diameter', 'rotation_period', 'surface_water'];
-function StarWarsProvider({ children }) {
-  const [searchPlanet, setSearchPlanet] = useState('');
 
-  const [numericFilterHeading, setNumericFilterHeading] = useState('population');
-  const [operator, setOperator] = useState('maior que');
-  const [numericFilter, setNumericFilter] = useState('0');
+function StarWarsProvider({ children }) {
+  const [
+    planetData, renderData, setRenderData, isLoading,
+  ] = useGetPlanets();
+
+  const [searchPlanetValue, setSearchPlanetValue] = useState('');
+
+  const [filterHeader, setFilterHeader] = useState('population');
+  const [filterOperator, setFilterOperator] = useState('maior que');
+  const [filterValue, setFilterValue] = useState('0');
+  const [usedFiltersData, setUsedFiltersData] = useState([]);
 
   const [selectOptions, setSelectOptions] = useState(SELECT_OPTIONS);
-
   const [usedFilterHeadings, setUsedFilterHeadings] = useState([]);
 
-  const [filtersByNumbers, setFiltersByNumbers] = useState([]);
+  useEffect(() => {
+    const applySearchFilter = (unfilteredData, searchFilterQuery) => unfilteredData
+      .filter(({ name }) => name
+        .includes(searchFilterQuery));
 
-  const [planetData, setPlanetData, isLoading] = useGetPlanets();
-
-  // idéia para o requisito 4
-  // const [filterOne, setFilterOne] = useState([]);
-  // const [filterTwo, setFilterTwo] = useState([]);
-  // const [filterThree, setFilterThree] = useState([]);
-  // const [filterFour, setFilterFour] = useState([]);
-  // const [filterFive, setFilterOFive] = useState([]);
-
-  const applySearchFilter = (data) => data.filter(({ name }) => name
-    .includes(searchPlanet));
-  const lastIndex = -1;
-  const data = searchPlanet ? applySearchFilter(planetData) : planetData;
-  const data2 = filtersByNumbers.length ? filtersByNumbers.at(lastIndex) : data;
+    const filteredData = searchPlanetValue
+      ? applySearchFilter(renderData, searchPlanetValue)
+      : planetData;
+    setRenderData(filteredData);
+  }, [searchPlanetValue]);
 
   useEffect(() => {
-    // idéia para o requisito4
-    // const populationFilter = usedFilterHeadings.at(lastArray).includes(SELECT_OPTIONS[0])
-    //   ? setFilterOne(applyNumericFilter(data)) : [...data];
-    // // console.log('1', populationFilter);
+    const applyNumberFilter = (unfilteredData, filters) => {
+      filters.forEach((filter) => {
+        const filteredData = (applyNumericFilter(unfilteredData, filter));
+        setRenderData(filteredData);
+      });
+    };
+    console.log(renderData);
+    applyNumberFilter(renderData, usedFiltersData);
+  }, [usedFilterHeadings]);
+  // }, [usedFiltersData]);
 
-    // const orbitalPeriodFilter = usedFilterHeadings.includes(SELECT_OPTIONS[1])
-    //   ? [...applyNumericFilter(populationFilter)] : [...populationFilter];
-    // // console.log('2', orbitalPeriodFilter);
-
-    // const diameterFilter = usedFilterHeadings.includes(SELECT_OPTIONS[2])
-    //   ? [...applyNumericFilter(orbitalPeriodFilter)] : [...orbitalPeriodFilter];
-    // // console.log('3', diameterFilter);
-
-    // const rotationPeriodFilter = usedFilterHeadings.includes(SELECT_OPTIONS[3])
-    //   ? [...applyNumericFilter(diameterFilter)] : [...diameterFilter];
-    // // console.log('4', rotationPeriodFilter);
-
-    // const surfaceWaterFilter = usedFilterHeadings.includes(SELECT_OPTIONS[4])
-    //   ? [...applyNumericFilter(rotationPeriodFilter)] : [...rotationPeriodFilter];
-    // // console.log('5', surfaceWaterFilter);
-
-    // idéia para o requisito 6
+  useEffect(() => {
     const notUsedFilterHeading = SELECT_OPTIONS
       .filter((option) => !usedFilterHeadings.includes(option));
-    console.log(notUsedFilterHeading, usedFilterHeadings);
     if (usedFilterHeadings) { setSelectOptions(notUsedFilterHeading); }
-    if (usedFilterHeadings) { setNumericFilterHeading(notUsedFilterHeading[0]); }
+    if (usedFilterHeadings) { setFilterHeader(notUsedFilterHeading[0]); }
   }, [usedFilterHeadings]);
+
+  const data = renderData.length ? renderData : planetData;
+
   const context = {
     setFilters: {
-      setSearchPlanet,
-      setNumericFilterHeading,
-      setOperator,
-      setNumericFilter,
+      setSearchPlanetValue,
+      setFilterHeader,
+      setFilterOperator,
+      setFilterValue,
       setUsedFilterHeadings,
+      setUsedFiltersData,
     },
     getFilters: {
-      searchPlanet,
-      numericFilterHeading,
-      operator,
-      numericFilter,
+      searchPlanetValue,
+      filterHeader,
+      filterOperator,
+      filterValue,
       usedFilterHeadings,
+      usedFiltersData,
     },
-    setPlanetData,
-    planetData,
     isLoading,
-    data: data2,
+    data,
     selectOptions,
-    setFiltersByNumbers,
-    filtersByNumbers,
     setSelectOptions,
+    setRenderData,
   };
 
   return (

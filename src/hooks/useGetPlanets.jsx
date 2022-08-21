@@ -6,20 +6,21 @@ import deleteProperty from '../helpers/deleteProperty';
 const useGetPlanets = (initialState = []) => {
   const [planetData, setPlanetData] = useState(initialState);
   const [isLoading, setIsLoading] = useState(true);
+  const [renderData, setRenderData] = useState([]);
 
   useEffect(() => {
     const getPlanets = async () => {
       const data = await fetch(PLANETS_ENDPOINT);
       const response = await data.json();
-      // console.log(deleteProperties(response.results, ['residents', 'name', 'diameter']));
       const filteredResponse = deleteProperty(response.results, 'residents');
       setPlanetData(filteredResponse);
+      setRenderData(filteredResponse);
       setIsLoading(false);
     };
     getPlanets();
   }, []);
 
-  return [planetData, setPlanetData, isLoading];
+  return [planetData, renderData, setRenderData, isLoading];
 };
 
 export default useGetPlanets;
