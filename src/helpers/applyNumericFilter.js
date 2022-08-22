@@ -1,4 +1,6 @@
 const applyNumericFilter = (arrayOfObjects, filters) => {
+  // console.log(filters);
+  // console.log(arrayOfObjects);
   const { filterHeader, filterValue, filterOperator } = filters;
   const filteredData = arrayOfObjects.filter((object) => {
     const objectValue = object[filterHeader];
@@ -15,6 +17,7 @@ const applyNumericFilter = (arrayOfObjects, filters) => {
       return isFilterTrue;
     } return false;
   });
+  // console.log('função filtro', filteredData);
   return filteredData;
 };
 

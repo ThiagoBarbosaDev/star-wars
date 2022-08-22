@@ -28,7 +28,7 @@ function StarWarsProvider({ children }) {
         .includes(searchFilterQuery));
 
     const filteredData = searchPlanetValue
-      ? applySearchFilter(renderData, searchPlanetValue)
+      ? applySearchFilter(planetData, searchPlanetValue)
       : planetData;
     setRenderData(filteredData);
   }, [searchPlanetValue]);
@@ -40,7 +40,6 @@ function StarWarsProvider({ children }) {
         setRenderData(filteredData);
       });
     };
-    console.log(renderData);
     applyNumberFilter(renderData, usedFiltersData);
   }, [usedFilterHeadings]);
   // }, [usedFiltersData]);
@@ -73,6 +72,7 @@ function StarWarsProvider({ children }) {
     },
     isLoading,
     data,
+    planetData,
     selectOptions,
     setSelectOptions,
     setRenderData,

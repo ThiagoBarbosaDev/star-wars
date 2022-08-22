@@ -27,7 +27,7 @@ const Forms = () => {
       usedFiltersData,
     },
     selectOptions,
-    data,
+    planetData,
     setRenderData,
   } = useContext(StarWarsContext);
 
@@ -51,21 +51,21 @@ const Forms = () => {
     const updatedHeading = usedFilterHeadings.filter((item) => item !== header);
     const updatedFilterData = usedFiltersData
       .filter((item) => item.filterHeader !== header);
-
-    setUsedFilterHeadings(updatedHeading);
     setUsedFiltersData(updatedFilterData);
+    setUsedFilterHeadings(updatedHeading);
+    setRenderData([...planetData]);
   };
 
   const renderRemoveFilterButtons = () => usedFilters
     .map((option) => (
-      <button
-        type="button"
-        datatest-id="filter"
-        onClick={ () => handleClearFilter(option) }
-        key={ option }
-      >
-        {option}
-      </button>
+      <div data-testid="filter" key={ option }>
+        <button
+          type="button"
+          onClick={ () => handleClearFilter(option) }
+        >
+          {option}
+        </button>
+      </div>
     ));
 
   return (
@@ -119,9 +119,7 @@ const Forms = () => {
       </fieldset>
       <fieldset>
         <legend>Used Filters</legend>
-        <div data-testid="filter">
-          { renderRemoveFilterButtons() }
-        </div>
+        { renderRemoveFilterButtons() }
       </fieldset>
     </section>
   );
