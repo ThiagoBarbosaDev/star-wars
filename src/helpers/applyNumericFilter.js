@@ -1,5 +1,5 @@
 const applyNumericFilter = (arrayOfObjects, filters) => {
-  // console.log(filters);
+  // console.log('dentro da helper:', filters);
   // console.log(arrayOfObjects);
   const { filterHeader, filterValue, filterOperator } = filters;
   const filteredData = arrayOfObjects.filter((object) => {

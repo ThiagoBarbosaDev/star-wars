@@ -48,12 +48,14 @@ const Forms = () => {
       .includes(option));
 
   const handleClearFilter = (header) => {
+    console.log('HEADER:', header);
     const updatedHeading = usedFilterHeadings.filter((item) => item !== header);
     const updatedFilterData = usedFiltersData
       .filter((item) => item.filterHeader !== header);
-    setUsedFiltersData(updatedFilterData);
+    console.log(updatedHeading, updatedFilterData);
     setUsedFilterHeadings(updatedHeading);
-    setRenderData([...planetData]);
+    // setRenderData([...planetData]);
+    setUsedFiltersData(updatedFilterData);
   };
 
   const renderRemoveFilterButtons = () => usedFilters
@@ -61,7 +63,9 @@ const Forms = () => {
       <div data-testid="filter" key={ option }>
         <button
           type="button"
-          onClick={ () => handleClearFilter(option) }
+          name={ option }
+          onClick={ (event) => handleClearFilter(event.target.name) }
+          // onClick={ () => handleClearFilter(option) }
         >
           {option}
         </button>

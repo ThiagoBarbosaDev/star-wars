@@ -33,16 +33,27 @@ function StarWarsProvider({ children }) {
     setRenderData(filteredData);
   }, [searchPlanetValue]);
 
+
+
   useEffect(() => {
     const applyNumberFilter = (unfilteredData, filters) => {
+      let foobar = unfilteredData;
+      // console.log('unfilteredData:', unfilteredData);
+      // console.log('usedFiltersData:');
       filters.forEach((filter) => {
-        const filteredData = (applyNumericFilter(unfilteredData, filter));
-        setRenderData(filteredData);
+        const filteredData = applyNumericFilter(unfilteredData, filter);
+        console.log('forEach filteredData', filteredData);
+        // setRenderData(filteredData);
+        foobar = filteredData;
       });
+      console.log(foobar);
+      setRenderData(foobar);
     };
     applyNumberFilter(renderData, usedFiltersData);
-  }, [usedFilterHeadings]);
-  // }, [usedFiltersData]);
+  // }, [usedFilterHeadings]);
+  }, [usedFiltersData]);
+
+
 
   useEffect(() => {
     const notUsedFilterHeading = SELECT_OPTIONS
