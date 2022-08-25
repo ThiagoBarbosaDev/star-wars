@@ -1,12 +1,20 @@
 import React, { useContext } from 'react';
-// import PropTypes from 'prop-types';
 import StarWarsContext from '../context/StarWarsContext';
 import TableRow from './TableRow';
 
 const Table = () => {
-  const { isLoading, data } = useContext(StarWarsContext);
+  const { 
+    isLoading,
+    data,
+    getFilters: {
+      searchPlanetValue },
+  } = useContext(StarWarsContext);
 
-  const renderRows = () => data
+  const applySearchFilter = () => data
+    .filter(({ name }) => name
+      .includes(searchPlanetValue));
+
+  const renderRows = () => applySearchFilter()
     .map((planetObject) => (
       <TableRow
         data={ planetObject }
@@ -41,22 +49,5 @@ const Table = () => {
     </table>
   );
 };
-
-// climate: "temperate"
-// created: "2014-12-10T12:45:06.577000Z"
-// diameter: "19720"
-// edited: "2014-12-20T20:58:18.434000Z"
-// films: ['https://swapi-trybe.herokuapp.com/api/films/5/']
-// gravity: "1 standard"
-// name: "Kamino"
-// orbital_period: "463"
-// population: "1000000000"
-// rotation_period: "27"
-// surface_water: "100"
-// terrain: "ocean"
-// url: "https://swapi-trybe.herokuapp.com/api/planets/10/"
-
-// Table.propTypes = {
-// };
 
 export default Table;

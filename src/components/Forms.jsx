@@ -5,8 +5,6 @@ import ComboBox from './ComboBox';
 import Input from './Input';
 
 const OPERATORS = ['maior que', 'menor que', 'igual a'];
-const SELECT_OPTIONS = ['population',
-  'orbital_period', 'diameter', 'rotation_period', 'surface_water'];
 
 const Forms = () => {
   const {
@@ -15,7 +13,6 @@ const Forms = () => {
       setFilterHeader,
       setFilterOperator,
       setFilterValue,
-      setUsedFilterHeadings,
       setUsedFiltersData,
     },
     getFilters: {
@@ -23,49 +20,35 @@ const Forms = () => {
       filterHeader,
       filterOperator,
       filterValue,
-      usedFilterHeadings,
       usedFiltersData,
     },
     selectOptions,
-    planetData,
     setRenderData,
   } = useContext(StarWarsContext);
 
   const handleFilter = () => {
-    setUsedFilterHeadings([...usedFilterHeadings, filterHeader]);
     const filters = { filterHeader, filterValue, filterOperator };
     setUsedFiltersData([...usedFiltersData, filters]);
   };
 
   const handleClearAllFilters = () => {
-    setUsedFilterHeadings([]);
     setUsedFiltersData([]);
     setRenderData([]);
   };
 
-  const usedFilters = SELECT_OPTIONS
-    .filter((option) => usedFilterHeadings
-      .includes(option));
-
   const handleClearFilter = (header) => {
-    console.log('HEADER:', header);
-    const updatedHeading = usedFilterHeadings.filter((item) => item !== header);
     const updatedFilterData = usedFiltersData
       .filter((item) => item.filterHeader !== header);
-    console.log(updatedHeading, updatedFilterData);
-    setUsedFilterHeadings(updatedHeading);
-    // setRenderData([...planetData]);
     setUsedFiltersData(updatedFilterData);
   };
 
-  const renderRemoveFilterButtons = () => usedFilters
-    .map((option) => (
+  const renderRemoveFilterButtons = () => usedFiltersData
+    .map(({ filterHeader: option }) => (
       <div data-testid="filter" key={ option }>
         <button
           type="button"
           name={ option }
           onClick={ (event) => handleClearFilter(event.target.name) }
-          // onClick={ () => handleClearFilter(option) }
         >
           {option}
         </button>
@@ -74,7 +57,6 @@ const Forms = () => {
 
   return (
     <section>
-      { !!usedFilterHeadings.length && <div> isfiltered by num </div> }
       <Input
         name="search-planet"
         type="text"

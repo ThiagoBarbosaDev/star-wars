@@ -37,7 +37,7 @@ describe('7 - Apague um filtro de valor numérico ao clicar no ícone de X de um
     cy.get('table tr').should('have.length', TOTAL_ROWS_COUNT);
   });
 
-  it.only('Adicione dois filtros e verifique se a tabela foi atualizada com as informações filtradas, depois remova os filtros e verifique se os valores da tabela voltaram ao original', () => {
+  it('Adicione dois filtros e verifique se a tabela foi atualizada com as informações filtradas, depois remova os filtros e verifique se os valores da tabela voltaram ao original', () => {
     cy.get('table tr').should('have.length', TOTAL_ROWS_COUNT);
 
     cy.addFilter('diameter', 'maior que', '8900');

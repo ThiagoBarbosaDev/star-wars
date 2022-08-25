@@ -20,49 +20,29 @@ function StarWarsProvider({ children }) {
   const [usedFiltersData, setUsedFiltersData] = useState([]);
 
   const [selectOptions, setSelectOptions] = useState(SELECT_OPTIONS);
-  const [usedFilterHeadings, setUsedFilterHeadings] = useState([]);
 
   useEffect(() => {
-    const applySearchFilter = (unfilteredData, searchFilterQuery) => unfilteredData
-      .filter(({ name }) => name
-        .includes(searchFilterQuery));
-
-    const filteredData = searchPlanetValue
-      ? applySearchFilter(planetData, searchPlanetValue)
-      : planetData;
-    setRenderData(filteredData);
-  }, [searchPlanetValue]);
-
-
-
-  useEffect(() => {
-    const applyNumberFilter = (unfilteredData, filters) => {
-      let foobar = unfilteredData;
-      // console.log('unfilteredData:', unfilteredData);
-      // console.log('usedFiltersData:');
-      filters.forEach((filter) => {
-        const filteredData = applyNumericFilter(unfilteredData, filter);
-        console.log('forEach filteredData', filteredData);
-        // setRenderData(filteredData);
-        foobar = filteredData;
+    const applyNumberFilter = (filters) => {
+      setRenderData(planetData);
+      filters.forEach((filter, index) => {
+        const filteredData = !index
+          ? applyNumericFilter(planetData, filter)
+          : applyNumericFilter(renderData, filter);
+        setRenderData(filteredData);
       });
-      console.log(foobar);
-      setRenderData(foobar);
     };
-    applyNumberFilter(renderData, usedFiltersData);
-  // }, [usedFilterHeadings]);
+    applyNumberFilter(usedFiltersData);
   }, [usedFiltersData]);
-
-
 
   useEffect(() => {
     const notUsedFilterHeading = SELECT_OPTIONS
-      .filter((option) => !usedFilterHeadings.includes(option));
-    if (usedFilterHeadings) { setSelectOptions(notUsedFilterHeading); }
-    if (usedFilterHeadings) { setFilterHeader(notUsedFilterHeading[0]); }
-  }, [usedFilterHeadings]);
-
-  const data = renderData.length ? renderData : planetData;
+      .filter((option) => !usedFiltersData
+        .some((filter) => filter.filterHeader === option));
+    if (usedFiltersData.length) {
+      setSelectOptions(notUsedFilterHeading);
+      setFilterHeader(notUsedFilterHeading[0]);
+    }
+  }, [usedFiltersData]);
 
   const context = {
     setFilters: {
@@ -70,7 +50,6 @@ function StarWarsProvider({ children }) {
       setFilterHeader,
       setFilterOperator,
       setFilterValue,
-      setUsedFilterHeadings,
       setUsedFiltersData,
     },
     getFilters: {
@@ -78,11 +57,10 @@ function StarWarsProvider({ children }) {
       filterHeader,
       filterOperator,
       filterValue,
-      usedFilterHeadings,
       usedFiltersData,
     },
     isLoading,
-    data,
+    data: renderData,
     planetData,
     selectOptions,
     setSelectOptions,
