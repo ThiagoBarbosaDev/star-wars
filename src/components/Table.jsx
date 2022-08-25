@@ -3,7 +3,7 @@ import StarWarsContext from '../context/StarWarsContext';
 import TableRow from './TableRow';
 
 const Table = () => {
-  const { 
+  const {
     isLoading,
     data,
     getFilters: {
