@@ -5,6 +5,8 @@ import ComboBox from './ComboBox';
 import Input from './Input';
 
 const OPERATORS = ['maior que', 'menor que', 'igual a'];
+const SELECT_OPTIONS = ['population',
+  'orbital_period', 'diameter', 'rotation_period', 'surface_water'];
 
 const Forms = () => {
   const {
@@ -14,6 +16,8 @@ const Forms = () => {
       setFilterOperator,
       setFilterValue,
       setUsedFiltersData,
+      setFilterSortRadio,
+      setDataFilteredBySort,
     },
     getFilters: {
       searchPlanetValue,
@@ -21,9 +25,11 @@ const Forms = () => {
       filterOperator,
       filterValue,
       usedFiltersData,
+      filterSortRadio,
     },
     selectOptions,
     setRenderData,
+    data,
   } = useContext(StarWarsContext);
 
   const handleFilter = () => {
@@ -40,6 +46,18 @@ const Forms = () => {
     const updatedFilterData = usedFiltersData
       .filter((item) => item.filterHeader !== header);
     setUsedFiltersData(updatedFilterData);
+  };
+
+  const handleClickSortFilter = () => {
+    const { column, sort } = filterSortRadio.order;
+    const filteredByUnknown = data.filter((item) => item[column] === 'unknown');
+    const filteredWithoutUnknown = data.filter((item) => item[column] !== 'unknown');
+    const sortedData = filteredWithoutUnknown.sort((a, b) => {
+      if (sort === 'ASC') { return Number(a[column]) - Number(b[column]); }
+      return Number(b[column]) - Number(a[column]);
+    });
+    const proccessedData = [...sortedData, ...filteredByUnknown];
+    setDataFilteredBySort([...proccessedData]);
   };
 
   const renderRemoveFilterButtons = () => usedFiltersData
@@ -106,6 +124,51 @@ const Forms = () => {
       <fieldset>
         <legend>Used Filters</legend>
         { renderRemoveFilterButtons() }
+      </fieldset>
+      <fieldset>
+        <legend>Ordenar Colunas</legend>
+        <ComboBox
+          name="operator-selector"
+          value={ filterSortRadio.order.column }
+          onChange={ ({ target: { value } }) => setFilterSortRadio(
+            { order: { ...filterSortRadio.order, column: value } },
+          ) }
+          data={ SELECT_OPTIONS }
+          data-testid="column-sort"
+        />
+        <span>
+          ASC
+        </span>
+        <Input
+          name="sort"
+          type="radio"
+          value="ASC"
+          checked={ filterSortRadio.order.sort === 'ASC' }
+          onChange={ ({ target: { value } }) => setFilterSortRadio(
+            { order: { ...filterSortRadio.order, sort: value } },
+          ) }
+          data-testid="column-sort-input-asc"
+        />
+        <span>
+          DESC
+        </span>
+        <Input
+          name="sort"
+          type="radio"
+          value="DESC"
+          checked={ filterSortRadio.order.sort === 'DESC' }
+          onChange={ ({ target: { value } }) => setFilterSortRadio(
+            { ...filterSortRadio, order: { ...filterSortRadio.order, sort: value } },
+          ) }
+          data-testid="column-sort-input-desc"
+        />
+        <button
+          type="button"
+          data-testid="column-sort-button"
+          onClick={ () => handleClickSortFilter() }
+        >
+          Ordenar
+        </button>
       </fieldset>
     </section>
   );

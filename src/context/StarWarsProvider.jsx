@@ -7,6 +7,7 @@ import applyNumericFilter from '../helpers/applyNumericFilter';
 const SELECT_OPTIONS = ['population',
   'orbital_period', 'diameter', 'rotation_period', 'surface_water'];
 
+const SORT_INITIAL_STATE = { order: { column: 'population', sort: 'ASC' } };
 function StarWarsProvider({ children }) {
   const [
     planetData, renderData, setRenderData, isLoading,
@@ -18,6 +19,9 @@ function StarWarsProvider({ children }) {
   const [filterOperator, setFilterOperator] = useState('maior que');
   const [filterValue, setFilterValue] = useState('0');
   const [usedFiltersData, setUsedFiltersData] = useState([]);
+
+  const [filterSortRadio, setFilterSortRadio] = useState(SORT_INITIAL_STATE);
+  const [dataFilteredBySort, setDataFilteredBySort] = useState([]);
 
   const [selectOptions, setSelectOptions] = useState(SELECT_OPTIONS);
 
@@ -44,6 +48,8 @@ function StarWarsProvider({ children }) {
     }
   }, [usedFiltersData]);
 
+  const dataToRender = dataFilteredBySort.length ? dataFilteredBySort : renderData;
+
   const context = {
     setFilters: {
       setSearchPlanetValue,
@@ -51,6 +57,8 @@ function StarWarsProvider({ children }) {
       setFilterOperator,
       setFilterValue,
       setUsedFiltersData,
+      setFilterSortRadio,
+      setDataFilteredBySort,
     },
     getFilters: {
       searchPlanetValue,
@@ -58,9 +66,11 @@ function StarWarsProvider({ children }) {
       filterOperator,
       filterValue,
       usedFiltersData,
+      filterSortRadio,
+      dataFilteredBySort,
     },
     isLoading,
-    data: renderData,
+    data: dataToRender,
     planetData,
     selectOptions,
     setSelectOptions,
