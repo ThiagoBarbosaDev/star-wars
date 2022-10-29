@@ -57,6 +57,7 @@ const Forms = () => {
     setDataFilteredBySort([...sortedData]);
   };
 
+  // todo: fix bug on removing last filter not updting column header;
   useEffect(() => {
     const notUsedFilterHeading = SELECT_OPTIONS
       .filter((option) => !usedFiltersData
