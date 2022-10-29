@@ -18,4 +18,10 @@ const applyNumericFilter = (arrayOfObjects, filters) => {
   return filteredData;
 };
 
-export default applyNumericFilter;
+const filterDataByNumericValues = (dataToBeFiltered, usedFiltersData) => usedFiltersData
+  .reduce((accumulator, currentFilter) => {
+    const result = applyNumericFilter(accumulator, currentFilter);
+    return result;
+  }, dataToBeFiltered);
+
+export default filterDataByNumericValues;
