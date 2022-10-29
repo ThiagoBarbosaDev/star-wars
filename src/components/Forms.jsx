@@ -1,40 +1,39 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import StarWarsContext from '../context/StarWarsContext';
-import Button from './Button';
 import ComboBox from './ComboBox';
 import Input from './Input';
 
 const OPERATORS = ['maior que', 'menor que', 'igual a'];
-const SELECT_OPTIONS = ['population',
-  'orbital_period', 'diameter', 'rotation_period', 'surface_water'];
+const SELECT_OPTIONS = [
+  'population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water',
+];
+const NUMERIC_FILTER_INPUTS_INITIAL_STATE = {
+  column: 'population', operator: 'maior que', value: '0',
+};
 
 const Forms = () => {
+  const [numericFilterInputs, setNumericFilterInputs] = useState(
+    NUMERIC_FILTER_INPUTS_INITIAL_STATE,
+  );
+  const [selectOptions, setSelectOptions] = useState(SELECT_OPTIONS);
+
   const {
     setFilters: {
       setSearchPlanetValue,
-      setFilterHeader,
-      setFilterOperator,
-      setFilterValue,
       setUsedFiltersData,
       setFilterSortRadio,
       setDataFilteredBySort,
     },
     getFilters: {
       searchPlanetValue,
-      filterHeader,
-      filterOperator,
-      filterValue,
       usedFiltersData,
       filterSortRadio,
     },
-    selectOptions,
-    setRenderData,
     data,
   } = useContext(StarWarsContext);
 
   const handleFilter = () => {
-    const filters = { filterHeader, filterValue, filterOperator };
-    setUsedFiltersData([...usedFiltersData, filters]);
+    setUsedFiltersData((prevState) => [...prevState, numericFilterInputs]);
   };
 
   const handleClearAllFilters = () => {
@@ -43,7 +42,7 @@ const Forms = () => {
 
   const handleClearFilter = (header) => {
     const updatedFilterData = usedFiltersData
-      .filter((item) => item.filterHeader !== header);
+      .filter((item) => item.column !== header);
     setUsedFiltersData(updatedFilterData);
   };
 
@@ -58,18 +57,34 @@ const Forms = () => {
     setDataFilteredBySort([...sortedData]);
   };
 
+  useEffect(() => {
+    const notUsedFilterHeading = SELECT_OPTIONS
+      .filter((option) => !usedFiltersData
+        .some((filter) => filter.column === option));
+    if (usedFiltersData.length) {
+      setSelectOptions(notUsedFilterHeading);
+      setNumericFilterInputs((prevState) => (
+        { ...prevState, column: notUsedFilterHeading[0] }
+      ));
+    }
+  }, [usedFiltersData]);
+
   const renderRemoveFilterButtons = () => usedFiltersData
-    .map(({ filterHeader: option }) => (
-      <div data-testid="filter" key={ option }>
+    .map(({ column }) => (
+      <div data-testid="filter" key={ column }>
         <button
           type="button"
-          name={ option }
+          name={ column }
           onClick={ (event) => handleClearFilter(event.target.name) }
         >
-          {option}
+          {column}
         </button>
       </div>
     ));
+
+  const onNumericFilterChange = ({ target: { name, value } }) => {
+    setNumericFilterInputs((prevState) => ({ ...prevState, [name]: value }));
+  };
 
   return (
     <section>
@@ -85,35 +100,36 @@ const Forms = () => {
       <fieldset>
         <legend> Filter By </legend>
         <ComboBox
-          name="numeric-selector"
-          value={ filterHeader }
-          onChange={ ({ target: { value } }) => setFilterHeader(value) }
+          name="column"
+          value={ numericFilterInputs.column }
+          onChange={ (event) => onNumericFilterChange(event) }
           data={ selectOptions }
           data-testid="column-filter"
         />
         <ComboBox
-          name="operator-selector"
-          value={ filterOperator }
-          onChange={ ({ target: { value } }) => setFilterOperator(value) }
+          name="operator"
+          value={ numericFilterInputs.operator }
+          onChange={ (event) => onNumericFilterChange(event) }
           data={ OPERATORS }
           data-testid="comparison-filter"
         />
         <Input
-          name="numeric-filter"
+          name="value"
           type="number"
-          value={ filterValue }
-          onChange={ ({ target: { value } }) => setFilterValue(value) }
+          value={ numericFilterInputs.value }
+          onChange={ (event) => onNumericFilterChange(event) }
           data-testid="value-filter"
         />
-        <Button
+        <button
           data-testid="button-filter"
-          onClick={ () => handleFilter() }
+          type="button"
+          onClick={ handleFilter }
         >
           Search
-        </Button>
+        </button>
         <button
           type="button"
-          onClick={ () => handleClearAllFilters() }
+          onClick={ handleClearAllFilters }
           data-testid="button-remove-filters"
         >
           Reset Filters

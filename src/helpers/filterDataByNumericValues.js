@@ -1,17 +1,17 @@
 const applyNumericFilter = (arrayOfObjects, filters) => {
-  const { filterHeader, filterValue, filterOperator } = filters;
+  const { column, value, operator } = filters;
   const filteredData = arrayOfObjects.filter((object) => {
-    const objectValue = object[filterHeader];
+    const objectValue = object[column];
     const isValueKnown = objectValue !== 'unknown';
     if (isValueKnown) {
       const parsedObjectValue = parseInt(objectValue, 10);
-      const parsedNumericFilter = parseInt(filterValue, 10);
+      const parsedNumericFilter = parseInt(value, 10);
       const parsedFilters = {
         'maior que': parsedObjectValue > parsedNumericFilter,
         'menor que': parsedObjectValue < parsedNumericFilter,
         'igual a': parsedObjectValue === parsedNumericFilter,
       };
-      const isFilterTrue = parsedFilters[filterOperator];
+      const isFilterTrue = parsedFilters[operator];
       return isFilterTrue;
     } return false;
   });

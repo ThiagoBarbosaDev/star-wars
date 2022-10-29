@@ -24,11 +24,7 @@ function StarWarsProvider({ children }) {
 
   const [searchPlanetValue, setSearchPlanetValue] = useState('');
 
-  // todo: merge these 3 usestates
   const [numericFilterInputs, setNumericFilterInputs] = useState(NUMERIC_FILTER_INPUTS_INITIAL_STATE);
-  const [filterHeader, setFilterHeader] = useState('population');
-  const [filterOperator, setFilterOperator] = useState('maior que');
-  const [filterValue, setFilterValue] = useState('0');
 
   const [usedFiltersData, setUsedFiltersData] = useState([]);
 
@@ -45,32 +41,16 @@ function StarWarsProvider({ children }) {
 
   console.log('re-render');
 
-  useEffect(() => {
-    const notUsedFilterHeading = SELECT_OPTIONS
-      .filter((option) => !usedFiltersData
-        .some((filter) => filter.filterHeader === option));
-    if (usedFiltersData.length) {
-      setSelectOptions(notUsedFilterHeading);
-      setFilterHeader(notUsedFilterHeading[0]);
-    }
-  }, [usedFiltersData]);
-
   const context = {
     setFilters: {
       setNumericFilterInputs,
       setSearchPlanetValue,
-      setFilterHeader,
-      setFilterOperator,
-      setFilterValue,
       setUsedFiltersData,
       setFilterSortRadio,
       setDataFilteredBySort,
     },
     getFilters: {
       searchPlanetValue,
-      filterHeader,
-      filterOperator,
-      filterValue,
       usedFiltersData,
       filterSortRadio,
       dataFilteredBySort,
@@ -79,7 +59,7 @@ function StarWarsProvider({ children }) {
     data: filteredData,
     selectOptions,
     setSelectOptions,
-    setRenderData,
+    // setRenderData,
   };
 
   return (
