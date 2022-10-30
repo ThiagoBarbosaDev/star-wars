@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import StarWarsContext from './StarWarsContext';
 import { PLANETS_ENDPOINT } from '../env/endpoints';
@@ -10,7 +10,7 @@ const SORT_INITIAL_STATE = { order: { column: 'population', sort: 'ASC' } };
 const NUMERIC_FILTER_INPUTS_INITIAL_STATE = { column: 'population', operator: 'maior que', value: '0' };
 function StarWarsProvider({ children }) {
   const [renderData, setRenderData] = useState([]);
-  let filteredData = renderData
+  // let filteredData = renderData
 
   useEffect(() => {
     const getPlanets = async () => {
@@ -35,9 +35,7 @@ function StarWarsProvider({ children }) {
 
   const [selectOptions, setSelectOptions] = useState(SELECT_OPTIONS);
 
-  if (usedFiltersData.length) {
-    filteredData = filterDataByNumericValues(renderData, usedFiltersData);
-  }
+  const filteredData = useMemo(() => filterDataByNumericValues(renderData, usedFiltersData), [renderData, usedFiltersData]);
 
   console.log('re-render');
 
@@ -59,7 +57,6 @@ function StarWarsProvider({ children }) {
     data: filteredData,
     selectOptions,
     setSelectOptions,
-    // setRenderData,
   };
 
   return (
