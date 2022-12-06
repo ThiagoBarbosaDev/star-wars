@@ -57,18 +57,16 @@ const Forms = () => {
     setDataFilteredBySort([...sortedData]);
   };
 
-  // todo: fix bug on removing last filter not updting column header;
   useEffect(() => {
     const notUsedFilterHeading = SELECT_OPTIONS
       .filter((option) => !usedFiltersData
         .some((filter) => filter.column === option));
-    if (usedFiltersData.length) {
-      setSelectOptions(notUsedFilterHeading);
-      setNumericFilterInputs((prevState) => (
-        { ...prevState, column: notUsedFilterHeading[0] }
-      ));
-    }
+    setSelectOptions(notUsedFilterHeading);
+    setNumericFilterInputs((prevState) => (
+      { ...prevState, column: notUsedFilterHeading[0] }
+    ));
   }, [usedFiltersData]);
+  console.log('forms');
 
   const renderRemoveFilterButtons = () => usedFiltersData
     .map(({ column }) => (
