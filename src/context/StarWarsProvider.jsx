@@ -8,10 +8,10 @@ import filterDataByNumericValues from '../helpers/filterDataByNumericValues';
 const SELECT_OPTIONS = ['population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water'];
 const SORT_INITIAL_STATE = { order: { column: 'population', sort: 'ASC' } };
 const NUMERIC_FILTER_INPUTS_INITIAL_STATE = { column: 'population', operator: 'maior que', value: '0' };
+
 function StarWarsProvider({ children }) {
   const [renderData, setRenderData] = useState([]);
   // let filteredData = renderData
-
   useEffect(() => {
     const getPlanets = async () => {
       const response = await fetch(PLANETS_ENDPOINT);
