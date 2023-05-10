@@ -20,6 +20,8 @@ function Table() {
     return <div>Loading...</div>
   }
 
+  console.log(data.map(({ name }) => name))
+
   return (
     <table>
       <thead>
