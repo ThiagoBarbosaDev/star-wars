@@ -4,14 +4,19 @@ Uma aplicação para praticar o uso de filtros complexos, contextAPI e hooks.
 Esse projeto foi desenvolvido inicialmente como um projeto do curso Trybe em 2022, e agora estou refatorando o projeto aplicando tudo que aprendi até agora.
 
 ## todos:
-[ ] - Fazer o deploy do projeto
-[ ] - Implementar o CSS
-[ ] - Criar customHooks (useFetch) ou implementar React Query
-[ ] - Implementar React Hook Forms
-[ ] - Criar componente de botão genérico
-[ ] - Impĺementar react-router
-[ ] - Criar rota de planetDetails
-[ ] - Migrar o projeto para Typescript
+( [ ] ) - Implementar o CSS
+
+( [ ] )  - Criar customHooks (useFetch) ou implementar React Query
+
+( [ ] )  - Implementar React Hook Forms
+
+( [ ] )  - Criar componente de botão genérico
+
+( [ ] )  - Impĺementar react-router
+
+( [ ] )  - Criar rota de planetDetails
+
+( [ ] )  - Migrar o projeto para Typescript
 
 ## deploy:
 todo: adicionar o deploy do projeto aqui
