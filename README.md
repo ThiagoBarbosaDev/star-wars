@@ -15,7 +15,7 @@ Esse projeto foi desenvolvido inicialmente como um projeto do curso Trybe em 202
 
 ## deploy:
 todo: adicionar o deploy do projeto aqui
->[Clique aqui para acessar o deploy do projeto no navegador](<adicionar o link do projeto aqui>)
+>[Clique aqui para acessar o deploy do projeto no navegador](https://star-wars-ncn6.vercel.app/)
 
 
 ## Dependências
