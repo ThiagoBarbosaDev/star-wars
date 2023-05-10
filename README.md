@@ -1,5 +1,5 @@
 # Star Wars
-Uma aplicação para praticar o uso de filtros complexos, contextAPI e hooks. Projeto em refatoração.
+Uma aplicação para praticar o uso de filtros complexos, contextAPI e hooks.
 
 Esse projeto foi desenvolvido inicialmente como um projeto do curso Trybe em 2022, e agora estou refatorando o projeto aplicando tudo que aprendi até agora.
 
