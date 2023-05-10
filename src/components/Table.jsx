@@ -4,7 +4,6 @@ import TableRow from './TableRow'
 
 function Table() {
   const {
-    isLoading,
     data,
     getFilters: { searchPlanetValue },
   } = useContext(StarWarsContext)
@@ -15,12 +14,6 @@ function Table() {
     applySearchFilter().map(planetObject => (
       <TableRow data={planetObject} key={planetObject.name} />
     ))
-
-  if (isLoading) {
-    return <div>Loading...</div>
-  }
-
-  console.log(data.map(({ name }) => name))
 
   return (
     <table>

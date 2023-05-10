@@ -52,8 +52,6 @@ function StarWarsProvider({ children }) {
     [renderData, usedFiltersData]
   )
 
-  console.log('re-render')
-
   const context = useMemo(
     () => ({
       setFilters: {

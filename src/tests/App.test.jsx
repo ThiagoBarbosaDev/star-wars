@@ -121,7 +121,7 @@ describe('integration tests', () => {
     expect(columns).toHaveLength(11)
   });
 
-  test.only('Column sorting should work accordingly', async () => {
+  test('Column sorting should work accordingly', async () => {
     const user = userEvent.setup()
     await act(() => render(<App />));
 
@@ -134,7 +134,6 @@ describe('integration tests', () => {
     await user.click(sortButton);
 
     planets = screen.getAllByTestId('planet-name')
-    screen.debug(planets[0])
     planets.forEach((planet, index) => expect(planet).toHaveTextContent(SORTED_PLANETS_ASC[index]))
     
     const descSort = screen.getAllByRole('radio')[1];
@@ -147,8 +146,14 @@ describe('integration tests', () => {
     await user.click(sortButton);
 
     planets = screen.getAllByTestId('planet-name')
-    screen.debug()
     planets.forEach((planet, index) => expect(planet).toHaveTextContent(SORTED_PLANETS_DESC[index]))
+    
+    await user.click(ascSort)
+    expect(ascSort).toBeChecked()
+    await user.click(sortButton);
 
+    // todo: test asc input and clear all filters button.
+    // planets = screen.getAllByTestId('planet-name')
+    // planets.forEach((planet, index) => expect(planet).toHaveTextContent(SORTED_PLANETS_ASC[index]))
   });
 });
