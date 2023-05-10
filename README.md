@@ -101,3 +101,5 @@ npm run coverage
 - Impĺementar react-router
 - Criar rota de planetDetails
 - Migrar o projeto para Typescript
+- Remover testes E2E da Trybe
+- Implementar meus próprios testes E2E (cypress.io)
