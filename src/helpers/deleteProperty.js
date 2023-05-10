@@ -1,10 +1,10 @@
 const deleteProperty = (arrayOfObjects, propertyKey) => {
-  const response = arrayOfObjects.map((object) => {
-    const { [propertyKey]: keyToBeRemoved, ...rest } = object;
-    return rest;
-  });
+  const response = arrayOfObjects.map(object => {
+    const { [propertyKey]: keyToBeRemoved, ...rest } = object
+    return rest
+  })
 
-  return response;
-};
+  return response
+}
 
-export default deleteProperty;
+export default deleteProperty

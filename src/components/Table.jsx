@@ -1,28 +1,24 @@
-import React, { useContext } from 'react';
-import StarWarsContext from '../context/StarWarsContext';
-import TableRow from './TableRow';
+import React, { useContext } from 'react'
+import StarWarsContext from '../context/StarWarsContext'
+import TableRow from './TableRow'
 
-const Table = () => {
+function Table() {
   const {
     isLoading,
     data,
-    getFilters: {
-      searchPlanetValue },
-  } = useContext(StarWarsContext);
+    getFilters: { searchPlanetValue },
+  } = useContext(StarWarsContext)
 
-  const applySearchFilter = () => data
-    .filter(({ name }) => name
-      .includes(searchPlanetValue));
+  const applySearchFilter = () => data.filter(({ name }) => name.includes(searchPlanetValue))
 
-  const renderRows = () => applySearchFilter()
-    .map((planetObject) => (
-      <TableRow
-        data={ planetObject }
-        key={ planetObject.name }
-      />
-    ));
+  const renderRows = () =>
+    applySearchFilter().map(planetObject => (
+      <TableRow data={planetObject} key={planetObject.name} />
+    ))
 
-  if (isLoading) { return <div>Loading...</div>; }
+  if (isLoading) {
+    return <div>Loading...</div>
+  }
 
   return (
     <table>
@@ -43,11 +39,9 @@ const Table = () => {
           <th>Url</th>
         </tr>
       </thead>
-      <tbody>
-        { renderRows() }
-      </tbody>
+      <tbody>{renderRows()}</tbody>
     </table>
-  );
-};
+  )
+}
 
-export default Table;
+export default Table

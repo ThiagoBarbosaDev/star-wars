@@ -1,22 +1,27 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from 'react'
+import PropTypes from 'prop-types'
 
-const ComboBox = (
-  { value, onChange, data, name, dataTestId,
-    className, ...otherProps },
-) => (
-  <select
-    className={ className }
-    name={ name }
-    value={ value }
-    onChange={ onChange }
-    { ...otherProps }
-  >
-    {data.map((option) => (
-      <option key={ option }>{option}</option>
-    ))}
-  </select>
-);
+function ComboBox({ value, onChange, data, name, dataTestId, className }) {
+  return (
+    <select
+      className={className}
+      name={name}
+      value={value}
+      onChange={onChange}
+      data-testid={dataTestId}
+    >
+      {data.map(option => (
+        <option key={option}>{option}</option>
+      ))}
+    </select>
+  )
+}
+
+// name="column"
+// value={numericFilterInputs.column}
+// onChange={event => onNumericFilterChange(event)}
+// data={selectOptions}
+// data-testid="column-filter"
 
 ComboBox.propTypes = {
   value: PropTypes.string,
@@ -25,12 +30,12 @@ ComboBox.propTypes = {
   name: PropTypes.string.isRequired,
   className: PropTypes.string,
   dataTestId: PropTypes.string,
-};
+}
 
 ComboBox.defaultProps = {
   className: null,
   dataTestId: null,
   value: '',
-};
+}
 
-export default ComboBox;
+export default ComboBox
