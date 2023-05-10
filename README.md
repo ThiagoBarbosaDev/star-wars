@@ -4,7 +4,6 @@ Uma aplicação para praticar o uso de filtros complexos, contextAPI e hooks.
 Esse projeto foi desenvolvido inicialmente como um projeto do curso Trybe em 2022, e agora estou refatorando o projeto aplicando tudo que aprendi até agora.
 
 ## deploy:
-todo: adicionar o deploy do projeto aqui
 >[Clique aqui para acessar o deploy do projeto no navegador](https://star-wars-ncn6.vercel.app/)
 
 
@@ -94,7 +93,7 @@ npm run coverage
 ```
 
 ## todos:
-- Implementar o CSS
+- Implementar o CSS (SASS + css modules)
 - Criar customHooks (useFetch) ou implementar React Query
 - Implementar React Hook Forms
 - Criar componente de botão genérico
@@ -103,3 +102,4 @@ npm run coverage
 - Migrar o projeto para Typescript
 - Remover testes E2E da Trybe
 - Implementar meus próprios testes E2E (cypress.io)
+- Dockerizar o projeto
