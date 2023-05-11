@@ -2,31 +2,20 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 function TableRow({ data }) {
-  const {
-    name,
-    rotation_period: rotationPeriod,
-    orbital_period: orbitalPeriod,
-    diameter,
-    climate,
-    gravity,
-    terrain,
-    surface_water: surfaceWater,
-    population,
-  } = data
-
+  // todo: remove data-testid
   return (
     <tr>
       <td data-testid="planet-name" data-cell="name">
-        {name}
+        {data.name}
       </td>
-      <td data-cell="rotation period">{rotationPeriod}</td>
-      <td data-cell="orbital period">{orbitalPeriod}</td>
-      <td data-cell="diameter">{diameter}</td>
-      <td data-cell="climate">{climate}</td>
-      <td data-cell="gravity">{gravity}</td>
-      <td data-cell="terrain">{terrain}</td>
-      <td data-cell="surface water">{surfaceWater}</td>
-      <td data-cell="population">{population}</td>
+      <td data-cell="rotation period">{data.rotation_period}</td>
+      <td data-cell="orbital period">{data.orbital_period}</td>
+      <td data-cell="diameter">{data.diameter}</td>
+      <td data-cell="climate">{data.climate}</td>
+      <td data-cell="gravity">{data.gravity}</td>
+      <td data-cell="terrain">{data.terrain}</td>
+      <td data-cell="surface water">{data.surface_water}</td>
+      <td data-cell="population">{data.population}</td>
     </tr>
   )
 }

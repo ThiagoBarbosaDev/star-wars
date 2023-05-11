@@ -50,36 +50,6 @@ function Forms() {
         Search for a planet:
       </Input>
       <NumericFilterPanel selectOptions={selectOptions} />
-      {/* <fieldset>
-        <legend> Filter By </legend>
-        <ComboBox
-          name="column"
-          value={numericFilterInputs.column}
-          onChange={onNumericFilterChange}
-          data={selectOptions}
-          dataTestId="column-filter"
-        />
-        <ComboBox
-          name="operator"
-          value={numericFilterInputs.operator}
-          onChange={onNumericFilterChange}
-          data={OPERATORS}
-          dataTestId="comparison-filter"
-        />
-        <Input
-          name="value"
-          type="number"
-          value={numericFilterInputs.value}
-          onChange={onNumericFilterChange}
-          dataTestId="value-filter"
-        />
-        <button data-testid="button-filter" type="button" onClick={handleFilter}>
-          Search
-        </button>
-        <button type="button" onClick={handleClearAllFilters} data-testid="button-remove-filters">
-          Reset Filters
-        </button>
-      </fieldset> */}
       {!!usedFiltersData.length && <RemoveFiltersPanel />}
       <SortingPanel />
     </main>
