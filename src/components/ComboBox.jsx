@@ -17,12 +17,6 @@ function ComboBox({ value, onChange, data, name, dataTestId, className }) {
   )
 }
 
-// name="column"
-// value={numericFilterInputs.column}
-// onChange={event => onNumericFilterChange(event)}
-// data={selectOptions}
-// data-testid="column-filter"
-
 ComboBox.propTypes = {
   value: PropTypes.string,
   onChange: PropTypes.func.isRequired,

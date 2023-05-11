@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import StarWarsContext from '../context/StarWarsContext'
 import ComboBox from './ComboBox'
 import Input from './Input'
+import RemoveFiltersPanel from './RemoveFiltersPanel'
 
 const OPERATORS = ['maior que', 'menor que', 'igual a']
 const SELECT_OPTIONS = [
@@ -42,11 +43,6 @@ function Forms() {
     setUsedFiltersData([])
   }
 
-  const handleClearFilter = header => {
-    const updatedFilterData = usedFiltersData.filter(item => item.column !== header)
-    setUsedFiltersData(updatedFilterData)
-  }
-
   const handleClickSortFilter = () => {
     const { column, sort } = filterSortRadio.order
     const sortedData = data.sort((a, b) => {
@@ -71,15 +67,6 @@ function Forms() {
     setSelectOptions(notUsedFilterHeading)
     setNumericFilterInputs(prevState => ({ ...prevState, column: notUsedFilterHeading[0] }))
   }, [usedFiltersData])
-
-  const renderRemoveFilterButtons = () =>
-    usedFiltersData.map(({ column }) => (
-      <div data-testid="filter" key={column}>
-        <button type="button" name={column} onClick={event => handleClearFilter(event.target.name)}>
-          {column}
-        </button>
-      </div>
-    ))
 
   const onNumericFilterChange = ({ target: { name, value } }) => {
     setNumericFilterInputs(prevState => ({ ...prevState, [name]: value }))
@@ -126,12 +113,9 @@ function Forms() {
           Reset Filters
         </button>
       </fieldset>
+      <RemoveFiltersPanel />
       <fieldset>
-        <legend>Used Filters</legend>
-        {renderRemoveFilterButtons()}
-      </fieldset>
-      <fieldset>
-        <legend>Ordenar Colunas</legend>
+        <legend>Sort Columns</legend>
         <ComboBox
           name="operator-selector"
           value={filterSortRadio.order.column}
@@ -141,7 +125,6 @@ function Forms() {
           data={SELECT_OPTIONS}
           dataTestId="column-sort"
         />
-        <span>ASC</span>
         <Input
           name="sort"
           type="radio"
@@ -151,8 +134,9 @@ function Forms() {
             setFilterSortRadio({ order: { ...filterSortRadio.order, sort: value } })
           }
           dataTestId="column-sort-input-asc"
-        />
-        <span>DESC</span>
+        >
+          ASC
+        </Input>
         <Input
           name="sort"
           type="radio"
@@ -165,7 +149,9 @@ function Forms() {
             })
           }
           dataTestId="column-sort-input-desc"
-        />
+        >
+          DESC
+        </Input>
         <button
           type="button"
           data-testid="column-sort-button"
