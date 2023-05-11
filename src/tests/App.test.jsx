@@ -32,13 +32,13 @@ const SORTED_PLANETS_ASC = [
 ]
 
 const SORTED_PLANETS_DESC = [
-  'Kamino',
   'Hoth',
+  'Kamino',
   'Alderaan',
   'Naboo',
   'Yavin IV',
-  'Endor',
   'Dagobah',
+  'Endor',
   'Tatooine',
   'Bespin',
   'Coruscant'

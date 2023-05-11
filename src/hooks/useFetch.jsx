@@ -39,6 +39,7 @@ const useFetch = (initialUrl, initialData = []) => {
 
   useEffect(() => {
     dispatch({ type: 'FETCH_INIT' })
+    // logic to enable fetch requisition cancelation on component unmount
     const controller = new AbortController()
     const { signal } = controller
     const fetchData = async () => {

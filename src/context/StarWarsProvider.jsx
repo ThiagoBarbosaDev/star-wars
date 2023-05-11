@@ -1,13 +1,6 @@
-import React, {
-  // useEffect,
-  useMemo,
-  useState,
-} from 'react'
+import React, { useMemo, useState } from 'react'
 import PropTypes from 'prop-types'
 import StarWarsContext from './StarWarsContext'
-// import { PLANETS_ENDPOINT } from '../env/endpoints'
-// import deleteProperty from '../helpers/deleteProperty'
-import filterDataByNumericValues from '../helpers/filterDataByNumericValues'
 import useFetch from '../hooks/useFetch'
 
 const SELECT_OPTIONS = [
@@ -25,12 +18,9 @@ const NUMERIC_FILTER_INPUTS_INITIAL_STATE = {
 }
 const SWAPI_ENDPOINTS = { planets: 'https://swapi.dev/api/planets' }
 function StarWarsProvider({ children }) {
-  // const [renderData, setRenderData] = useState([])
   const [apiData] = useFetch(SWAPI_ENDPOINTS.planets)
-  const planetData = useMemo(() => apiData?.data?.results || [], [apiData])
 
   const [searchPlanetValue, setSearchPlanetValue] = useState('')
-
   const [numericFilterInputs, setNumericFilterInputs] = useState(
     NUMERIC_FILTER_INPUTS_INITIAL_STATE
   )
@@ -39,15 +29,10 @@ function StarWarsProvider({ children }) {
 
   const [filterSortRadio, setFilterSortRadio] = useState(SORT_INITIAL_STATE)
 
-  // todo: try to get rid of this unnecessary setstate
-  const [dataFilteredBySort, setDataFilteredBySort] = useState([])
-
   const [selectOptions, setSelectOptions] = useState(SELECT_OPTIONS)
 
-  const filteredData = useMemo(
-    () => filterDataByNumericValues(planetData, usedFiltersData),
-    [planetData, usedFiltersData]
-  )
+  const [sortData, setSortData] = useState(null)
+  const planetData = useMemo(() => apiData?.data?.results || [], [apiData])
 
   const context = useMemo(
     () => ({
@@ -56,29 +41,29 @@ function StarWarsProvider({ children }) {
         setSearchPlanetValue,
         setUsedFiltersData,
         setFilterSortRadio,
-        setDataFilteredBySort,
       },
       getFilters: {
         searchPlanetValue,
         usedFiltersData,
         filterSortRadio,
-        dataFilteredBySort,
         numericFilterInputs,
       },
-      data: filteredData,
+      data: planetData,
       selectOptions,
       setSelectOptions,
+      setSortData,
       isLoading: apiData.isLoading,
+      sortData,
     }),
     [
       searchPlanetValue,
       usedFiltersData,
       filterSortRadio,
-      dataFilteredBySort,
       numericFilterInputs,
-      filteredData,
       selectOptions,
       apiData.isLoading,
+      sortData,
+      planetData,
     ]
   )
 

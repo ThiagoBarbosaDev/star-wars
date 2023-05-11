@@ -29,10 +29,11 @@ function Forms() {
       setSearchPlanetValue,
       setUsedFiltersData,
       setFilterSortRadio,
-      setDataFilteredBySort,
+      // setDataFilteredBySort,
     },
     getFilters: { searchPlanetValue, usedFiltersData, filterSortRadio },
-    data,
+    // data,
+    setSortData,
   } = useContext(StarWarsContext)
 
   const handleFilter = () => {
@@ -44,20 +45,7 @@ function Forms() {
   }
 
   const handleClickSortFilter = () => {
-    const { column, sort } = filterSortRadio.order
-    const sortedData = data.sort((a, b) => {
-      if (a[column] === 'unknown') {
-        return 1
-      }
-      if (b[column] === 'unknown') {
-        return -1
-      }
-      if (sort === 'ASC') {
-        return Number(a[column]) - Number(b[column])
-      }
-      return Number(b[column]) - Number(a[column])
-    })
-    setDataFilteredBySort([...sortedData])
+    setSortData(filterSortRadio)
   }
 
   useEffect(() => {
@@ -113,7 +101,7 @@ function Forms() {
           Reset Filters
         </button>
       </fieldset>
-      <RemoveFiltersPanel />
+      {!!usedFiltersData.length && <RemoveFiltersPanel />}
       <fieldset>
         <legend>Sort Columns</legend>
         <ComboBox
@@ -152,11 +140,7 @@ function Forms() {
         >
           DESC
         </Input>
-        <button
-          type="button"
-          data-testid="column-sort-button"
-          onClick={() => handleClickSortFilter()}
-        >
+        <button type="button" data-testid="column-sort-button" onClick={handleClickSortFilter}>
           Ordenar
         </button>
       </fieldset>

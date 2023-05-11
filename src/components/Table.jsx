@@ -1,17 +1,31 @@
-import React, { useContext } from 'react'
+import React, { useContext, useMemo } from 'react'
 import StarWarsContext from '../context/StarWarsContext'
 import TableRow from './TableRow'
+import filterDataByNumericValues from '../helpers/filterDataByNumericValues'
+import sortRenderData from '../helpers/sortRenderData'
 
 function Table() {
   const {
-    data,
+    data: planetData,
     isLoading,
-    getFilters: { searchPlanetValue },
+    getFilters: { searchPlanetValue, usedFiltersData },
+    sortData,
   } = useContext(StarWarsContext)
+
+  const filteredData = useMemo(
+    () => filterDataByNumericValues(planetData, usedFiltersData),
+    [planetData, usedFiltersData]
+  )
+
+  const renderData = useMemo(
+    () => (sortData ? sortRenderData(filteredData, sortData) : filteredData),
+    [filteredData, sortData]
+  )
 
   if (isLoading) {
     return <div>Loading...</div>
   }
+
   return (
     <div className="table-container">
       <table>
@@ -30,7 +44,7 @@ function Table() {
         </thead>
         <tbody>
           {!isLoading &&
-            data
+            renderData
               .filter(({ name }) => name.includes(searchPlanetValue))
               .map(planet => <TableRow data={planet} key={planet.name} />)}
         </tbody>
