@@ -11,7 +11,6 @@ function App() {
       <Table />
     </StarWarsProvider>
   )
-  // return <div>Hello World</div>
 }
 
 export default App
