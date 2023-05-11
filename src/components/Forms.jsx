@@ -73,7 +73,7 @@ function Forms() {
   }
 
   return (
-    <section>
+    <main>
       <Input
         name="search-planet"
         type="text"
@@ -160,7 +160,7 @@ function Forms() {
           Ordenar
         </button>
       </fieldset>
-    </section>
+    </main>
   )
 }
 

@@ -1,9 +1,14 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, {
+  // useEffect,
+  useMemo,
+  useState,
+} from 'react'
 import PropTypes from 'prop-types'
 import StarWarsContext from './StarWarsContext'
-import { PLANETS_ENDPOINT } from '../env/endpoints'
-import deleteProperty from '../helpers/deleteProperty'
+// import { PLANETS_ENDPOINT } from '../env/endpoints'
+// import deleteProperty from '../helpers/deleteProperty'
 import filterDataByNumericValues from '../helpers/filterDataByNumericValues'
+import useFetch from '../hooks/useFetch'
 
 const SELECT_OPTIONS = [
   'population',
@@ -18,19 +23,11 @@ const NUMERIC_FILTER_INPUTS_INITIAL_STATE = {
   operator: 'maior que',
   value: '0',
 }
-
+const SWAPI_ENDPOINTS = { planets: 'https://swapi.dev/api/planets' }
 function StarWarsProvider({ children }) {
-  const [renderData, setRenderData] = useState([])
-
-  useEffect(() => {
-    const getPlanets = async () => {
-      const response = await fetch(PLANETS_ENDPOINT)
-      const data = await response.json()
-      const filteredResponse = deleteProperty(data.results, 'residents')
-      setRenderData(filteredResponse)
-    }
-    getPlanets()
-  }, [])
+  // const [renderData, setRenderData] = useState([])
+  const [apiData] = useFetch(SWAPI_ENDPOINTS.planets)
+  const planetData = useMemo(() => apiData?.data?.results || [], [apiData])
 
   const [searchPlanetValue, setSearchPlanetValue] = useState('')
 
@@ -48,8 +45,8 @@ function StarWarsProvider({ children }) {
   const [selectOptions, setSelectOptions] = useState(SELECT_OPTIONS)
 
   const filteredData = useMemo(
-    () => filterDataByNumericValues(renderData, usedFiltersData),
-    [renderData, usedFiltersData]
+    () => filterDataByNumericValues(planetData, usedFiltersData),
+    [planetData, usedFiltersData]
   )
 
   const context = useMemo(
@@ -71,6 +68,7 @@ function StarWarsProvider({ children }) {
       data: filteredData,
       selectOptions,
       setSelectOptions,
+      isLoading: apiData.isLoading,
     }),
     [
       searchPlanetValue,
@@ -80,6 +78,7 @@ function StarWarsProvider({ children }) {
       numericFilterInputs,
       filteredData,
       selectOptions,
+      apiData.isLoading,
     ]
   )
 

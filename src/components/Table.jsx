@@ -5,9 +5,13 @@ import TableRow from './TableRow'
 function Table() {
   const {
     data,
+    isLoading,
     getFilters: { searchPlanetValue },
   } = useContext(StarWarsContext)
 
+  if (isLoading) {
+    return <div>Loading...</div>
+  }
   return (
     <div className="table-container">
       <table>
@@ -25,11 +29,10 @@ function Table() {
           </tr>
         </thead>
         <tbody>
-          {data
-            .filter(({ name }) => name.includes(searchPlanetValue))
-            .map(planet => (
-              <TableRow data={planet} key={planet.name} />
-            ))}
+          {!isLoading &&
+            data
+              .filter(({ name }) => name.includes(searchPlanetValue))
+              .map(planet => <TableRow data={planet} key={planet.name} />)}
         </tbody>
       </table>
     </div>
