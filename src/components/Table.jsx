@@ -1,5 +1,5 @@
 import React, { useContext, useMemo } from 'react'
-import StarWarsContext from '../context/StarWarsContext'
+import FilterContext from '../context/FilterContext'
 import TableRow from './TableRow'
 import filterDataByNumericValues from '../helpers/filterDataByNumericValues'
 import sortRenderData from '../helpers/sortRenderData'
@@ -8,10 +8,7 @@ import useFetch from '../hooks/useFetch'
 const SWAPI_ENDPOINTS = { planets: 'https://swapi.dev/api/planets' }
 
 function Table() {
-  const {
-    getFilters: { searchPlanetValue, usedFiltersData },
-    sortData,
-  } = useContext(StarWarsContext)
+  const { searchPlanetValue, usedFiltersData, sortData } = useContext(FilterContext)
 
   const [{ data, isLoading }] = useFetch(SWAPI_ENDPOINTS.planets)
   const planetData = useMemo(() => data?.results, [data])

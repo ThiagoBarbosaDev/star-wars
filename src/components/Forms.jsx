@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
-import StarWarsContext from '../context/StarWarsContext'
+import FilterContext from '../context/FilterContext'
 import Input from './Input'
-import RemoveFiltersPanel from './RemoveFiltersPanel'
+// import RemoveFiltersPanel from './RemoveFiltersPanel'
 import SortingPanel from './SortingPanel'
 import NumericFilterPanel from './NumericFilterPanel'
 
@@ -24,10 +24,7 @@ function Forms() {
   const [, setNumericFilterInputs] = useState(NUMERIC_FILTER_INPUTS_INITIAL_STATE)
   const [selectOptions, setSelectOptions] = useState(SELECT_OPTIONS)
 
-  const {
-    setFilters: { setSearchPlanetValue },
-    getFilters: { searchPlanetValue, usedFiltersData },
-  } = useContext(StarWarsContext)
+  const { setSearchPlanetValue, searchPlanetValue, usedFiltersData } = useContext(FilterContext)
 
   // todo: remove useEffect and move this logic to the event handlers, derivate value from usedFilters instead
   useEffect(() => {
@@ -50,7 +47,6 @@ function Forms() {
         Search for a planet:
       </Input>
       <NumericFilterPanel selectOptions={selectOptions} />
-      {!!usedFiltersData.length && <RemoveFiltersPanel />}
       <SortingPanel />
     </main>
   )

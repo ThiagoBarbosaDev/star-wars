@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import ComboBox from './ComboBox'
 import Input from './Input'
-import StarWarsContext from '../context/StarWarsContext'
+import FilterContext from '../context/FilterContext'
 
 const SELECT_OPTIONS = [
   'population',
@@ -12,11 +12,7 @@ const SELECT_OPTIONS = [
 ]
 
 function SortingPanel() {
-  const {
-    setFilters: { setFilterSortRadio },
-    getFilters: { filterSortRadio },
-    setSortData,
-  } = useContext(StarWarsContext)
+  const { setFilterSortRadio, filterSortRadio, setSortData } = useContext(FilterContext)
 
   const handleClickSortFilter = () => {
     setSortData(filterSortRadio)

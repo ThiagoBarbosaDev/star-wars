@@ -1,16 +1,15 @@
 import React, { useContext } from 'react'
+import PropTypes from 'prop-types'
 import Button from './Button'
-import StarWarsContext from '../context/StarWarsContext'
+import FilterContext from '../context/FilterContext'
 
-function RemoveFiltersPanel() {
-  const {
-    setFilters: { setUsedFiltersData },
-    getFilters: { usedFiltersData },
-  } = useContext(StarWarsContext)
+function RemoveFiltersPanel({ setNumericFilterInputs }) {
+  const { setUsedFiltersData, usedFiltersData } = useContext(FilterContext)
 
   const handleClearFilter = ({ target: { value } }) => {
     const updatedFilterData = usedFiltersData.filter(item => item.column !== value)
     setUsedFiltersData(updatedFilterData)
+    setNumericFilterInputs(prevState => ({ ...prevState, column: value }))
   }
 
   return (
@@ -27,6 +26,10 @@ function RemoveFiltersPanel() {
       </fieldset>
     </div>
   )
+}
+
+RemoveFiltersPanel.propTypes = {
+  setNumericFilterInputs: PropTypes.func.isRequired,
 }
 
 export default RemoveFiltersPanel
