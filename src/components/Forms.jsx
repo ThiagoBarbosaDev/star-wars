@@ -1,39 +1,11 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext } from 'react'
 import FilterContext from '../context/FilterContext'
 import Input from './Input'
-// import RemoveFiltersPanel from './RemoveFiltersPanel'
 import SortingPanel from './SortingPanel'
 import NumericFilterPanel from './NumericFilterPanel'
 
-const SELECT_OPTIONS = [
-  'population',
-  'orbital_period',
-  'diameter',
-  'rotation_period',
-  'surface_water',
-]
-
-const NUMERIC_FILTER_INPUTS_INITIAL_STATE = {
-  column: 'population',
-  operator: 'maior que',
-  value: '0',
-}
-
 function Forms() {
-  // todo: removeState after implementing selectOptions logic change, ref l35
-  const [, setNumericFilterInputs] = useState(NUMERIC_FILTER_INPUTS_INITIAL_STATE)
-  const [selectOptions, setSelectOptions] = useState(SELECT_OPTIONS)
-
-  const { setSearchPlanetValue, searchPlanetValue, usedFiltersData } = useContext(FilterContext)
-
-  // todo: remove useEffect and move this logic to the event handlers, derivate value from usedFilters instead
-  useEffect(() => {
-    const notUsedFilterHeading = SELECT_OPTIONS.filter(
-      option => !usedFiltersData.some(filter => filter.column === option)
-    )
-    setSelectOptions(notUsedFilterHeading)
-    setNumericFilterInputs(prevState => ({ ...prevState, column: notUsedFilterHeading[0] }))
-  }, [usedFiltersData])
+  const { setSearchPlanetValue, searchPlanetValue } = useContext(FilterContext)
 
   return (
     <main>
@@ -46,7 +18,7 @@ function Forms() {
       >
         Search for a planet:
       </Input>
-      <NumericFilterPanel selectOptions={selectOptions} />
+      <NumericFilterPanel />
       <SortingPanel />
     </main>
   )
