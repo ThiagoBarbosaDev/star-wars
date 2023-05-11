@@ -12,27 +12,21 @@ function TableRow({ data }) {
     terrain,
     surface_water: surfaceWater,
     population,
-    films,
-    created,
-    edited,
-    url,
   } = data
 
   return (
     <tr>
-      <td data-testid="planet-name">{name}</td>
-      <td>{rotationPeriod}</td>
-      <td>{orbitalPeriod}</td>
-      <td>{diameter}</td>
-      <td>{climate}</td>
-      <td>{gravity}</td>
-      <td>{terrain}</td>
-      <td>{surfaceWater}</td>
-      <td>{population}</td>
-      <td>{films}</td>
-      <td>{created}</td>
-      <td>{edited}</td>
-      <td>{url}</td>
+      <td data-testid="planet-name" data-cell="name">
+        {name}
+      </td>
+      <td data-cell="rotation period">{rotationPeriod}</td>
+      <td data-cell="orbital period">{orbitalPeriod}</td>
+      <td data-cell="diameter">{diameter}</td>
+      <td data-cell="climate">{climate}</td>
+      <td data-cell="gravity">{gravity}</td>
+      <td data-cell="terrain">{terrain}</td>
+      <td data-cell="surface water">{surfaceWater}</td>
+      <td data-cell="population">{population}</td>
     </tr>
   )
 }
@@ -48,10 +42,6 @@ TableRow.propTypes = {
     terrain: PropTypes.string.isRequired,
     surface_water: PropTypes.string.isRequired,
     population: PropTypes.string.isRequired,
-    films: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
-    created: PropTypes.string.isRequired,
-    edited: PropTypes.string.isRequired,
-    url: PropTypes.string.isRequired,
   }).isRequired,
 }
 

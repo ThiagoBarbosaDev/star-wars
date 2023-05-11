@@ -21,7 +21,7 @@ const NUMERIC_FILTER_INPUTS_INITIAL_STATE = {
 
 function StarWarsProvider({ children }) {
   const [renderData, setRenderData] = useState([])
-  // let filteredData = renderData
+
   useEffect(() => {
     const getPlanets = async () => {
       const response = await fetch(PLANETS_ENDPOINT)
