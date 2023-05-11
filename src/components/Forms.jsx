@@ -3,6 +3,7 @@ import StarWarsContext from '../context/StarWarsContext'
 import ComboBox from './ComboBox'
 import Input from './Input'
 import RemoveFiltersPanel from './RemoveFiltersPanel'
+import SortingPanel from './SortingPanel'
 
 const OPERATORS = ['maior que', 'menor que', 'igual a']
 const SELECT_OPTIONS = [
@@ -25,15 +26,8 @@ function Forms() {
   const [selectOptions, setSelectOptions] = useState(SELECT_OPTIONS)
 
   const {
-    setFilters: {
-      setSearchPlanetValue,
-      setUsedFiltersData,
-      setFilterSortRadio,
-      // setDataFilteredBySort,
-    },
-    getFilters: { searchPlanetValue, usedFiltersData, filterSortRadio },
-    // data,
-    setSortData,
+    setFilters: { setSearchPlanetValue, setUsedFiltersData },
+    getFilters: { searchPlanetValue, usedFiltersData },
   } = useContext(StarWarsContext)
 
   const handleFilter = () => {
@@ -42,10 +36,6 @@ function Forms() {
 
   const handleClearAllFilters = () => {
     setUsedFiltersData([])
-  }
-
-  const handleClickSortFilter = () => {
-    setSortData(filterSortRadio)
   }
 
   useEffect(() => {
@@ -102,48 +92,7 @@ function Forms() {
         </button>
       </fieldset>
       {!!usedFiltersData.length && <RemoveFiltersPanel />}
-      <fieldset>
-        <legend>Sort Columns</legend>
-        <ComboBox
-          name="operator-selector"
-          value={filterSortRadio.order.column}
-          onChange={({ target: { value } }) =>
-            setFilterSortRadio({ order: { ...filterSortRadio.order, column: value } })
-          }
-          data={SELECT_OPTIONS}
-          dataTestId="column-sort"
-        />
-        <Input
-          name="sort"
-          type="radio"
-          value="ASC"
-          checked={filterSortRadio.order.sort === 'ASC'}
-          onChange={({ target: { value } }) =>
-            setFilterSortRadio({ order: { ...filterSortRadio.order, sort: value } })
-          }
-          dataTestId="column-sort-input-asc"
-        >
-          ASC
-        </Input>
-        <Input
-          name="sort"
-          type="radio"
-          value="DESC"
-          checked={filterSortRadio.order.sort === 'DESC'}
-          onChange={({ target: { value } }) =>
-            setFilterSortRadio({
-              ...filterSortRadio,
-              order: { ...filterSortRadio.order, sort: value },
-            })
-          }
-          dataTestId="column-sort-input-desc"
-        >
-          DESC
-        </Input>
-        <button type="button" data-testid="column-sort-button" onClick={handleClickSortFilter}>
-          Ordenar
-        </button>
-      </fieldset>
+      <SortingPanel />
     </main>
   )
 }

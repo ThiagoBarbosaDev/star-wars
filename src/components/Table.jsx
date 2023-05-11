@@ -3,14 +3,18 @@ import StarWarsContext from '../context/StarWarsContext'
 import TableRow from './TableRow'
 import filterDataByNumericValues from '../helpers/filterDataByNumericValues'
 import sortRenderData from '../helpers/sortRenderData'
+import useFetch from '../hooks/useFetch'
+
+const SWAPI_ENDPOINTS = { planets: 'https://swapi.dev/api/planets' }
 
 function Table() {
   const {
-    data: planetData,
-    isLoading,
     getFilters: { searchPlanetValue, usedFiltersData },
     sortData,
   } = useContext(StarWarsContext)
+
+  const [{ data, isLoading }] = useFetch(SWAPI_ENDPOINTS.planets)
+  const planetData = useMemo(() => data?.results, [data])
 
   const filteredData = useMemo(
     () => filterDataByNumericValues(planetData, usedFiltersData),

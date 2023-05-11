@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from 'react'
 import PropTypes from 'prop-types'
 import StarWarsContext from './StarWarsContext'
-import useFetch from '../hooks/useFetch'
+// import useFetch from '../hooks/useFetch'
 
 const SELECT_OPTIONS = [
   'population',
@@ -10,15 +10,19 @@ const SELECT_OPTIONS = [
   'rotation_period',
   'surface_water',
 ]
+
 const SORT_INITIAL_STATE = { order: { column: 'population', sort: 'ASC' } }
+
 const NUMERIC_FILTER_INPUTS_INITIAL_STATE = {
   column: 'population',
   operator: 'maior que',
   value: '0',
 }
-const SWAPI_ENDPOINTS = { planets: 'https://swapi.dev/api/planets' }
+
+// const SWAPI_ENDPOINTS = { planets: 'https://swapi.dev/api/planets' }
+
 function StarWarsProvider({ children }) {
-  const [apiData] = useFetch(SWAPI_ENDPOINTS.planets)
+  // const [apiData] = useFetch(SWAPI_ENDPOINTS.planets)
 
   const [searchPlanetValue, setSearchPlanetValue] = useState('')
   const [numericFilterInputs, setNumericFilterInputs] = useState(
@@ -32,7 +36,7 @@ function StarWarsProvider({ children }) {
   const [selectOptions, setSelectOptions] = useState(SELECT_OPTIONS)
 
   const [sortData, setSortData] = useState(null)
-  const planetData = useMemo(() => apiData?.data?.results || [], [apiData])
+  // const planetData = useMemo(() => apiData?.data?.results, [apiData])
 
   const context = useMemo(
     () => ({
@@ -48,11 +52,11 @@ function StarWarsProvider({ children }) {
         filterSortRadio,
         numericFilterInputs,
       },
-      data: planetData,
+      // data: planetData,
       selectOptions,
       setSelectOptions,
       setSortData,
-      isLoading: apiData.isLoading,
+      // isLoading: apiData.isLoading,
       sortData,
     }),
     [
@@ -61,9 +65,9 @@ function StarWarsProvider({ children }) {
       filterSortRadio,
       numericFilterInputs,
       selectOptions,
-      apiData.isLoading,
+      // apiData.isLoading,
       sortData,
-      planetData,
+      // planetData,
     ]
   )
 
