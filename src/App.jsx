@@ -2,16 +2,15 @@ import React from 'react'
 import './App.css'
 import Forms from './components/Forms'
 import Table from './components/Table'
-import StarWarsProvider from './context/StarWarsProvider'
+import FilterProvider from './context/FilterProvider'
 
 function App() {
   return (
-    <StarWarsProvider>
+    <FilterProvider>
       <Forms />
       <Table />
-    </StarWarsProvider>
+    </FilterProvider>
   )
-  // return <div>Hello World</div>
 }
 
 export default App

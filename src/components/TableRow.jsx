@@ -2,37 +2,20 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 function TableRow({ data }) {
-  const {
-    name,
-    rotation_period: rotationPeriod,
-    orbital_period: orbitalPeriod,
-    diameter,
-    climate,
-    gravity,
-    terrain,
-    surface_water: surfaceWater,
-    population,
-    films,
-    created,
-    edited,
-    url,
-  } = data
-
+  // todo: remove data-testid
   return (
     <tr>
-      <td data-testid="planet-name">{name}</td>
-      <td>{rotationPeriod}</td>
-      <td>{orbitalPeriod}</td>
-      <td>{diameter}</td>
-      <td>{climate}</td>
-      <td>{gravity}</td>
-      <td>{terrain}</td>
-      <td>{surfaceWater}</td>
-      <td>{population}</td>
-      <td>{films}</td>
-      <td>{created}</td>
-      <td>{edited}</td>
-      <td>{url}</td>
+      <td data-testid="planet-name" data-cell="name">
+        {data.name}
+      </td>
+      <td data-cell="rotation period">{data.rotation_period}</td>
+      <td data-cell="orbital period">{data.orbital_period}</td>
+      <td data-cell="diameter">{data.diameter}</td>
+      <td data-cell="climate">{data.climate}</td>
+      <td data-cell="gravity">{data.gravity}</td>
+      <td data-cell="terrain">{data.terrain}</td>
+      <td data-cell="surface water">{data.surface_water}</td>
+      <td data-cell="population">{data.population}</td>
     </tr>
   )
 }
@@ -48,10 +31,6 @@ TableRow.propTypes = {
     terrain: PropTypes.string.isRequired,
     surface_water: PropTypes.string.isRequired,
     population: PropTypes.string.isRequired,
-    films: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
-    created: PropTypes.string.isRequired,
-    edited: PropTypes.string.isRequired,
-    url: PropTypes.string.isRequired,
   }).isRequired,
 }
 
