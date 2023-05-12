@@ -48,13 +48,18 @@ const useFetch = (initialUrl, initialData = []) => {
         const result = await response.json()
         dispatch({ type: 'FETCH_SUCCESS', payload: result })
       } catch (error) {
+        // https://stackoverflow.com/questions/72489140/react-18-strict-mode-causing-component-to-render-twice
+        // added so it doesn't crash staging when running in strictmode
+        if (controller.signal.aborted) return
         dispatch({ type: 'FETCH_FAILURE' })
       }
     }
 
     fetchData()
 
-    return () => controller.abort()
+    return () => {
+      controller.abort()
+    }
   }, [url])
 
   return [state, setUrl]

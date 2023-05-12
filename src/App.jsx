@@ -1,5 +1,4 @@
 import React from 'react'
-import './App.css'
 import Forms from './components/Forms'
 import Table from './components/Table'
 import FilterProvider from './context/FilterProvider'
