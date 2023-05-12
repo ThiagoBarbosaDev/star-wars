@@ -1,4 +1,5 @@
 .data-row {
+  font-size: 2.5rem;
   background: hsl(0deg 0% 0% / 50%);
 
   .data-cell {
@@ -11,11 +12,15 @@
   background: hsl(0deg 0% 0% / 10%);
 }
 
-@media (width <= 650px) {
+@media (width <= 1200px) {
   .data-cell {
     display: grid;
-    grid-template-columns: 20ch auto;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 0.5rem;
+    justify-content: space-evenly;
     padding: 0.5rem 1rem;
+    text-align: left;
+    text-indent: 2rem;
   }
 
   .data-cell:first-child {
@@ -27,7 +32,6 @@
   }
 
   .data-cell::before {
-    min-width: 40vw;
     text-align: right;
     content: attr(data-cell) ": ";
   }

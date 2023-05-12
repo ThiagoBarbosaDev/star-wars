@@ -1,9 +1,11 @@
 // https://adrianroselli.com/2017/11/a-responsive-accessible-table.html
-// https://www.youtube.com/watch?v=czZ1PvNW5hk
+
 @import '../../styles/variables.scss';
 
 .container {
-  width: min(900px, 100% - 3rem);
+  box-sizing: border-box;
+  width: min(1300px, 100% - 3rem);
+  padding: 1rem;
   margin-inline: auto;
   font-family: $font-family-base;
   line-height: 1.5;
@@ -16,8 +18,9 @@
     width: 100%;
 
     .table-caption {
+      padding: 1rem;
       font-family: $font-family-title;
-      font-size: 2rem;
+      font-size: 5rem;
       color: $star-wars-yellow;
       background: black;
       border-radius: 15px 15px 0 0;
@@ -28,12 +31,13 @@
     }
 
     .header-cell {
+      font-size: 2rem;
       background: hsl(0deg 0% 0% / 80%);
     }
     
     .table-footer {
       padding: 1rem;
-      font-size: 0.8rem;
+      font-size: 1.5rem;
       text-transform: uppercase;
       background: hsl(0deg 0% 0% / 80%);
       border-radius: 0 0 15px 15px;
@@ -43,7 +47,7 @@
 }
 
 
-@media (width <= 650px) {
+@media (width <= 1200px) {
   .header-cell {
     display: none;
   }
