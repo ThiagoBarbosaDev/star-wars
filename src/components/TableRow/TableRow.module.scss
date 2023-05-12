@@ -1,0 +1,38 @@
+.data-row {
+  font-size: 2.5rem;
+  background: hsl(0deg 0% 0% / 50%);
+
+  .data-cell {
+    padding: 1rem;
+    vertical-align: middle;
+  }
+}
+
+.data-row:nth-of-type(2n) {
+  background: hsl(0deg 0% 0% / 10%);
+}
+
+@media (width <= 1200px) {
+  .data-cell {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 0.5rem;
+    justify-content: space-evenly;
+    padding: 0.5rem 1rem;
+    text-align: left;
+    text-indent: 2rem;
+  }
+
+  .data-cell:first-child {
+    margin-top: 2rem;
+  }
+
+  .data-cell:last-child {
+    margin-bottom: 2rem;
+  }
+
+  .data-cell::before {
+    text-align: right;
+    content: attr(data-cell) ": ";
+  }
+}
