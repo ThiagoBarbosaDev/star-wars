@@ -1,14 +1,15 @@
 import React, { useContext } from 'react'
-import FilterContext from '../context/FilterContext'
-import Input from './Input'
-import SortingPanel from './SortingPanel'
-import NumericFilterPanel from './NumericFilterPanel'
+import FilterContext from '../../context/FilterContext'
+import Input from '../Input'
+import SortingPanel from '../SortingPanel'
+import NumericFilterPanel from '../NumericFilterPanel'
+import styles from './Forms.module.scss'
 
 function Forms() {
   const { setSearchPlanetValue, searchPlanetValue } = useContext(FilterContext)
 
   return (
-    <main>
+    <main className={styles.container}>
       <Input
         name="search-planet"
         type="text"

@@ -19,7 +19,9 @@ time, mark, audio, video {
 	padding: 0;
 	margin: 0;
 	font: inherit;
-	font-size: 100%;
+
+	// 1rem = 10px
+	font-size: 62.5%;
 	vertical-align: baseline;
 	border: 0;
 }
@@ -52,4 +54,4 @@ table {
 	border-spacing: 0;
 	border-collapse: collapse;
 }
-a { color: red; }
+
