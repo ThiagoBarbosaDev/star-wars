@@ -1,4 +1,8 @@
-cypress/*
 coverage/*
 src/tests/*
-src/setupTests.js
+src/setupTests.ts
+
+public
+build
+vite-env.d.ts
+vite.config.ts

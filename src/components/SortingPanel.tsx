@@ -2,6 +2,7 @@ import React, { useContext } from 'react'
 import ComboBox from './ComboBox'
 import Input from './Input'
 import FilterContext from '../context/FilterContext'
+import { ColumnOptions, FilterContextType } from '../Types'
 
 const SELECT_OPTIONS = [
   'population',
@@ -12,7 +13,9 @@ const SELECT_OPTIONS = [
 ]
 
 function SortingPanel() {
-  const { setFilterSortRadio, filterSortRadio, setSortData } = useContext(FilterContext)
+  const { setFilterSortRadio, filterSortRadio, setSortData } = useContext(
+    FilterContext,
+  ) as FilterContextType
 
   const handleClickSortFilter = () => {
     setSortData(filterSortRadio)
@@ -25,7 +28,9 @@ function SortingPanel() {
         name="operator-selector"
         value={filterSortRadio.order.column}
         onChange={({ target: { value } }) =>
-          setFilterSortRadio({ order: { ...filterSortRadio.order, column: value } })
+          setFilterSortRadio({
+            order: { ...filterSortRadio.order, column: value as ColumnOptions },
+          })
         }
         data={SELECT_OPTIONS}
         dataTestId="column-sort"
@@ -36,7 +41,7 @@ function SortingPanel() {
         value="ASC"
         checked={filterSortRadio.order.sort === 'ASC'}
         onChange={({ target: { value } }) =>
-          setFilterSortRadio({ order: { ...filterSortRadio.order, sort: value } })
+          setFilterSortRadio({ order: { ...filterSortRadio.order, sort: value as 'ASC' | 'DESC' } })
         }
         dataTestId="column-sort-input-asc"
       >
@@ -50,7 +55,7 @@ function SortingPanel() {
         onChange={({ target: { value } }) =>
           setFilterSortRadio({
             ...filterSortRadio,
-            order: { ...filterSortRadio.order, sort: value },
+            order: { ...filterSortRadio.order, sort: value as 'ASC' | 'DESC' },
           })
         }
         dataTestId="column-sort-input-desc"

@@ -5,23 +5,26 @@ import filterDataByNumericValues from '../../helpers/filterDataByNumericValues'
 import sortRenderData from '../../helpers/sortRenderData'
 import useFetch from '../../hooks/useFetch'
 import styles from './Table.module.scss'
+import { FilterContextType, IPlanets } from '../../Types'
 
 const SWAPI_ENDPOINTS = { planets: 'https://swapi.dev/api/planets' }
 
 function Table() {
-  const { searchPlanetValue, usedFiltersData, sortData } = useContext(FilterContext)
+  const { searchPlanetValue, usedFiltersData, sortData } = useContext(
+    FilterContext,
+  ) as FilterContextType
 
   const [{ data, isLoading }] = useFetch(SWAPI_ENDPOINTS.planets)
-  const planetData = useMemo(() => data?.results, [data])
+  const planetData = useMemo(() => data?.results, [data]) as IPlanets[]
 
-  const filteredData = useMemo(
+  const filteredData = useMemo<IPlanets[]>(
     () => filterDataByNumericValues(planetData, usedFiltersData),
-    [planetData, usedFiltersData]
+    [planetData, usedFiltersData],
   )
 
-  const renderData = useMemo(
+  const renderData = useMemo<IPlanets[]>(
     () => (sortData ? sortRenderData(filteredData, sortData) : filteredData),
-    [filteredData, sortData]
+    [filteredData, sortData],
   )
 
   if (isLoading) {
@@ -49,11 +52,11 @@ function Table() {
           {!isLoading &&
             renderData
               .filter(({ name }) => name.includes(searchPlanetValue))
-              .map(planet => <TableRow data={planet} key={planet.name} />)}
+              .map((planet) => <TableRow data={planet} key={planet.name} />)}
         </tbody>
         <tfoot>
           <tr>
-            <td className={styles['table-footer']} colSpan="999">
+            <td className={styles['table-footer']} colSpan={999}>
               Data collected from swapi.dev
             </td>
           </tr>

@@ -1,8 +1,25 @@
 import { useEffect, useReducer, useState } from 'react'
+import { IPlanets } from '../Types'
+
 // https://www.robinwieruch.de/react-hooks-fetch-data/
 // https://dev.to/pallymore/clean-up-async-requests-in-useeffect-hooks-90h
 
-const dataFetchReducer = (state, action) => {
+type ParsedResult = {
+  results: IPlanets[]
+} | null
+
+interface FetchState {
+  data: ParsedResult
+  isLoading: boolean
+  isError: boolean
+}
+
+type FetchAction =
+  | { type: 'FETCH_INIT' }
+  | { type: 'FETCH_SUCCESS'; payload: ParsedResult }
+  | { type: 'FETCH_FAILURE' }
+
+const dataFetchReducer = (state: FetchState, action: FetchAction) => {
   switch (action.type) {
     case 'FETCH_INIT':
       return {
@@ -24,12 +41,15 @@ const dataFetchReducer = (state, action) => {
         isError: true,
       }
     default:
-      throw new Error()
+      return state
   }
 }
 
-const useFetch = (initialUrl, initialData = []) => {
-  const [url, setUrl] = useState(initialUrl)
+const useFetch = (
+  initialUrl: string,
+  initialData: ParsedResult = null,
+): [FetchState, React.Dispatch<React.SetStateAction<string>>] => {
+  const [url, setUrl] = useState<string>(initialUrl)
 
   const [state, dispatch] = useReducer(dataFetchReducer, {
     isLoading: true,
@@ -39,7 +59,6 @@ const useFetch = (initialUrl, initialData = []) => {
 
   useEffect(() => {
     dispatch({ type: 'FETCH_INIT' })
-    // logic to enable fetch requisition cancelation on component unmount
     const controller = new AbortController()
     const { signal } = controller
     const fetchData = async () => {
@@ -48,8 +67,6 @@ const useFetch = (initialUrl, initialData = []) => {
         const result = await response.json()
         dispatch({ type: 'FETCH_SUCCESS', payload: result })
       } catch (error) {
-        // https://stackoverflow.com/questions/72489140/react-18-strict-mode-causing-component-to-render-twice
-        // added so it doesn't crash staging when running in strictmode
         if (controller.signal.aborted) return
         dispatch({ type: 'FETCH_FAILURE' })
       }

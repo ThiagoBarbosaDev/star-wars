@@ -4,9 +4,10 @@ import Input from '../Input'
 import SortingPanel from '../SortingPanel'
 import NumericFilterPanel from '../NumericFilterPanel'
 import styles from './Forms.module.scss'
+import { FilterContextType } from '../../Types'
 
 function Forms() {
-  const { setSearchPlanetValue, searchPlanetValue } = useContext(FilterContext)
+  const { setSearchPlanetValue, searchPlanetValue } = useContext(FilterContext) as FilterContextType
 
   return (
     <main className={styles.container}>
