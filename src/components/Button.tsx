@@ -1,32 +1,26 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React, { MouseEventHandler, ReactNode } from 'react'
 
-function Button({ children, className, isSubmit, onClick, name, value }) {
+type ButtonProps = {
+  children: ReactNode | string
+  className?: string | undefined
+  dataValue: string
+  name: string
+  isSubmit: boolean
+  onClick: MouseEventHandler<HTMLButtonElement>
+}
+
+function Button({ children, className, isSubmit, onClick, name, dataValue }: ButtonProps) {
   return (
     <button
       className={className}
       type={isSubmit ? 'submit' : 'button'}
       onClick={onClick}
       name={name}
-      value={value}
+      data-value={dataValue}
     >
       {children}
     </button>
   )
-}
-
-Button.propTypes = {
-  children: PropTypes.node,
-  className: PropTypes.string,
-  name: PropTypes.string.isRequired,
-  value: PropTypes.string.isRequired,
-  isSubmit: PropTypes.bool.isRequired,
-  onClick: PropTypes.func.isRequired,
-}
-
-Button.defaultProps = {
-  children: null,
-  className: null,
 }
 
 export default Button

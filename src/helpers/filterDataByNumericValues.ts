@@ -1,6 +1,6 @@
 const applyNumericFilter = (arrayOfObjects, filters) => {
   const { column, value, operator } = filters
-  const filteredData = arrayOfObjects.filter(object => {
+  const filteredData = arrayOfObjects.filter((object) => {
     const objectValue = object[column]
     const isValueKnown = objectValue !== 'unknown'
     if (isValueKnown) {

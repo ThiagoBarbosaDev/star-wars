@@ -1,16 +1,20 @@
 import React, { useMemo, useState } from 'react'
-import PropTypes from 'prop-types'
 import FilterContext from './FilterContext'
+import { FilterContextType, NumericFilter, SortState } from '../Types'
 
-const SORT_INITIAL_STATE = { order: { column: 'population', sort: 'ASC' } }
+type FilterProviderProps = {
+  children: React.ReactNode
+}
 
-function StarWarsProvider({ children }) {
+const SORT_INITIAL_STATE: SortState = { order: { column: 'population', sort: 'ASC' } }
+
+function FilterProvider({ children }: FilterProviderProps) {
   const [searchPlanetValue, setSearchPlanetValue] = useState('')
-  const [usedFiltersData, setUsedFiltersData] = useState([])
+  const [usedFiltersData, setUsedFiltersData] = useState<NumericFilter[]>([])
   const [filterSortRadio, setFilterSortRadio] = useState(SORT_INITIAL_STATE)
-  const [sortData, setSortData] = useState(null)
+  const [sortData, setSortData] = useState<SortState | null>(null)
 
-  const context = useMemo(
+  const context = useMemo<FilterContextType>(
     () => ({
       setSearchPlanetValue,
       setUsedFiltersData,
@@ -21,14 +25,10 @@ function StarWarsProvider({ children }) {
       usedFiltersData,
       filterSortRadio,
     }),
-    [searchPlanetValue, usedFiltersData, filterSortRadio, sortData]
+    [searchPlanetValue, usedFiltersData, filterSortRadio, sortData],
   )
 
   return <FilterContext.Provider value={context}>{children}</FilterContext.Provider>
 }
 
-StarWarsProvider.propTypes = {
-  children: PropTypes.node.isRequired,
-}
-
-export default StarWarsProvider
+export default FilterProvider

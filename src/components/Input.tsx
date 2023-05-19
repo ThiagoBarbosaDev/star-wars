@@ -1,7 +1,16 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React, { ChangeEventHandler } from 'react'
 
-function Input({ children, type, name, value, checked, dataTestId, onChange }) {
+interface InputProps {
+  children?: string
+  name: string
+  type: string
+  value: string
+  checked?: boolean | undefined
+  dataTestId?: string | undefined
+  onChange: ChangeEventHandler<HTMLInputElement>
+}
+
+function Input({ children, type, name, value, checked, dataTestId, onChange }: InputProps) {
   return (
     <label htmlFor={`form-${name}`}>
       {children}
@@ -16,22 +25,6 @@ function Input({ children, type, name, value, checked, dataTestId, onChange }) {
       />
     </label>
   )
-}
-
-Input.propTypes = {
-  children: PropTypes.string,
-  name: PropTypes.string.isRequired,
-  type: PropTypes.string.isRequired,
-  value: PropTypes.string.isRequired,
-  checked: PropTypes.bool,
-  dataTestId: PropTypes.string,
-  onChange: PropTypes.func.isRequired,
-}
-
-Input.defaultProps = {
-  checked: null,
-  children: '',
-  dataTestId: null,
 }
 
 export default Input

@@ -1,8 +1,12 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import styles from './TableRow.module.scss'
+import { IPlanets } from '../../Types'
 
-function TableRow({ data }) {
+type TableRowProps = {
+  data: IPlanets
+}
+
+function TableRow({ data }: TableRowProps) {
   // todo: remove data-testid
   return (
     <tr className={styles['data-row']}>
@@ -35,20 +39,6 @@ function TableRow({ data }) {
       </td>
     </tr>
   )
-}
-
-TableRow.propTypes = {
-  data: PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    rotation_period: PropTypes.string.isRequired,
-    orbital_period: PropTypes.string.isRequired,
-    diameter: PropTypes.string.isRequired,
-    climate: PropTypes.string.isRequired,
-    gravity: PropTypes.string.isRequired,
-    terrain: PropTypes.string.isRequired,
-    surface_water: PropTypes.string.isRequired,
-    population: PropTypes.string.isRequired,
-  }).isRequired,
 }
 
 export default TableRow

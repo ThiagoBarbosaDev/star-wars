@@ -1,13 +1,13 @@
-import React, { useContext, useState } from 'react'
-// import PropTypes from 'prop-types'
+import React, { ChangeEvent, useContext, useState } from 'react'
 import ComboBox from './ComboBox'
 import Input from './Input'
 import FilterContext from '../context/FilterContext'
 import RemoveFiltersPanel from './RemoveFiltersPanel'
+import { FilterContextType, NumericFilter } from '../Types'
 
 const OPERATORS = ['maior que', 'menor que', 'igual a']
 
-const NUMERIC_FILTER_INPUTS_INITIAL_STATE = {
+const NUMERIC_FILTER_INPUTS_INITIAL_STATE: NumericFilter = {
   column: 'population',
   operator: 'maior que',
   value: '0',
@@ -22,33 +22,39 @@ const COLUMN_OPTIONS_INIT = [
 ]
 
 function NumericFilterPanel() {
-  const { setUsedFiltersData, usedFiltersData } = useContext(FilterContext)
+  const { setUsedFiltersData, usedFiltersData } = useContext(FilterContext) as FilterContextType
 
-  const [numericFilterInputs, setNumericFilterInputs] = useState(
-    NUMERIC_FILTER_INPUTS_INITIAL_STATE
+  const [numericFilterInputs, setNumericFilterInputs] = useState<NumericFilter>(
+    NUMERIC_FILTER_INPUTS_INITIAL_STATE,
   )
 
-  const columnOptions = COLUMN_OPTIONS_INIT.filter(option =>
-    usedFiltersData.every(filter => filter.column !== option)
+  const columnOptions = COLUMN_OPTIONS_INIT.filter((option) =>
+    usedFiltersData.every((filter) => filter.column !== option),
   )
 
   const handleFilter = () => {
-    const usedfilterDataPayload = [...usedFiltersData, numericFilterInputs]
+    const usedfilterDataPayload = [...usedFiltersData, numericFilterInputs] as NumericFilter[]
     setUsedFiltersData(usedfilterDataPayload)
 
-    const updatedColumnOptions = COLUMN_OPTIONS_INIT.filter(option =>
-      usedfilterDataPayload.every(filter => filter.column !== option)
+    const updatedColumnOptions = COLUMN_OPTIONS_INIT.filter((option) =>
+      usedfilterDataPayload.every((filter) => filter.column !== option),
     )
 
-    setNumericFilterInputs(prevState => ({ ...prevState, column: updatedColumnOptions[0] || '' }))
+    setNumericFilterInputs(
+      (prevState): NumericFilter =>
+        ({ ...prevState, column: updatedColumnOptions[0] || '' } as NumericFilter &
+          Record<string, ''>),
+    )
   }
 
   const handleClearAllFilters = () => {
     setUsedFiltersData([])
   }
 
-  const onNumericFilterChange = ({ target: { name, value } }) =>
-    setNumericFilterInputs(prevState => ({ ...prevState, [name]: value }))
+  const onNumericFilterChange = ({
+    target: { name, value },
+  }: ChangeEvent<HTMLSelectElement | HTMLInputElement>) =>
+    setNumericFilterInputs((prevState) => ({ ...prevState, [name]: value }))
 
   return (
     <fieldset>
@@ -86,9 +92,5 @@ function NumericFilterPanel() {
     </fieldset>
   )
 }
-
-// NumericFilterPanel.propTypes = {
-//   selectOptions: PropTypes.arrayOf(PropTypes.string).isRequired,
-// }
 
 export default NumericFilterPanel

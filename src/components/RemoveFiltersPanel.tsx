@@ -1,15 +1,22 @@
 import React, { useContext } from 'react'
-import PropTypes from 'prop-types'
 import Button from './Button'
 import FilterContext from '../context/FilterContext'
+import { FilterContextType, NumericFilter } from '../Types'
 
-function RemoveFiltersPanel({ setNumericFilterInputs }) {
-  const { setUsedFiltersData, usedFiltersData } = useContext(FilterContext)
+type RemoveFiltersPanelProps = {
+  setNumericFilterInputs: React.Dispatch<React.SetStateAction<NumericFilter>>
+}
 
-  const handleClearFilter = ({ target: { value } }) => {
-    const updatedFilterData = usedFiltersData.filter(item => item.column !== value)
+function RemoveFiltersPanel({ setNumericFilterInputs }: RemoveFiltersPanelProps) {
+  const { setUsedFiltersData, usedFiltersData } = useContext(FilterContext) as FilterContextType
+
+  const handleClearFilter = (event: React.MouseEvent<HTMLButtonElement>) => {
+    const value = event.currentTarget.getAttribute('data-value')
+    const updatedFilterData = usedFiltersData.filter((item) => item.column !== value)
     setUsedFiltersData(updatedFilterData)
-    setNumericFilterInputs(prevState => ({ ...prevState, column: value }))
+    setNumericFilterInputs(
+      (prevState: NumericFilter) => ({ ...prevState, column: value } as NumericFilter),
+    )
   }
 
   return (
@@ -18,7 +25,12 @@ function RemoveFiltersPanel({ setNumericFilterInputs }) {
         <legend>Used Filters</legend>
         {usedFiltersData.map(({ column }) => (
           <div data-testid="filter" key={column}>
-            <Button isSubmit={false} name="removeFilter" value={column} onClick={handleClearFilter}>
+            <Button
+              isSubmit={false}
+              name="removeFilter"
+              dataValue={column}
+              onClick={handleClearFilter}
+            >
               {column}
             </Button>
           </div>
@@ -26,10 +38,6 @@ function RemoveFiltersPanel({ setNumericFilterInputs }) {
       </fieldset>
     </div>
   )
-}
-
-RemoveFiltersPanel.propTypes = {
-  setNumericFilterInputs: PropTypes.func.isRequired,
 }
 
 export default RemoveFiltersPanel

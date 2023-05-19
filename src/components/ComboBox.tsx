@@ -1,7 +1,15 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React, { ChangeEvent } from 'react'
 
-function ComboBox({ value, onChange, data, name, dataTestId, className }) {
+type ComboBoxProps = {
+  value: string
+  onChange: (event: ChangeEvent<HTMLSelectElement>) => void
+  data: string[]
+  name: string
+  className?: string | undefined
+  dataTestId?: string | undefined
+}
+
+function ComboBox({ value, onChange, data, name, dataTestId, className }: ComboBoxProps) {
   return (
     <select
       className={className}
@@ -10,26 +18,11 @@ function ComboBox({ value, onChange, data, name, dataTestId, className }) {
       onChange={onChange}
       data-testid={dataTestId}
     >
-      {data.map(option => (
+      {data.map((option) => (
         <option key={option}>{option}</option>
       ))}
     </select>
   )
-}
-
-ComboBox.propTypes = {
-  value: PropTypes.string,
-  onChange: PropTypes.func.isRequired,
-  data: PropTypes.arrayOf(PropTypes.string).isRequired,
-  name: PropTypes.string.isRequired,
-  className: PropTypes.string,
-  dataTestId: PropTypes.string,
-}
-
-ComboBox.defaultProps = {
-  className: null,
-  dataTestId: null,
-  value: '',
 }
 
 export default ComboBox
