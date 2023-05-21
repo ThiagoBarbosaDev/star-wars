@@ -8,9 +8,9 @@ Esse projeto foi desenvolvido inicialmente como um projeto do curso Trybe em 202
 
 
 ## Dependências
-* **Dependencias**: React.
+* **Dependencias**: React, Typescript.
 
-* **Dependencias de desenvolvimento**: ESLint, Prettier, Vitest, Istambul.  
+* **Dependencias de desenvolvimento**: ESLint, Prettier, Vitest, Istambul, React Testing Library.  
 </br>
 
 ## Aplicação
