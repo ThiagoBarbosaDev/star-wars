@@ -93,13 +93,14 @@ npm run coverage
 ```
 
 ## todos:
-- Implementar o CSS (SASS + css modules)
-- Criar customHooks (useFetch) ou implementar React Query
-- Implementar React Hook Forms
-- Criar componente de botão genérico
-- Impĺementar react-router
-- Criar rota de planetDetails
-- Migrar o projeto para Typescript
-- Remover testes E2E da Trybe
-- Implementar meus próprios testes E2E (cypress.io)
-- Dockerizar o projeto
+- [ ] Implementar o CSS (SASS + css modules)
+- [x] Criar customHooks (useFetch) 
+- [ ] implementar React Query
+- [ ] Implementar React Hook Forms
+- [ ] Criar componente de botão genérico
+- [ ] Impĺementar react-router
+- [ ] Criar rota de planetDetails
+- [x] Migrar o projeto para Typescript
+- [x] Remover testes E2E da Trybe
+- [ ] Implementar meus próprios testes E2E (cypress.io)
+- [ ] Dockerizar o projeto
