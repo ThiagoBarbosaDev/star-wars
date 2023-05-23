@@ -1,4 +1,6 @@
-const applyNumericFilter = (arrayOfObjects, filters) => {
+import { IPlanets, NumericFilter } from '../Types'
+
+const applyNumericFilter = (arrayOfObjects: IPlanets[], filters: NumericFilter) => {
   const { column, value, operator } = filters
   const filteredData = arrayOfObjects.filter((object) => {
     const objectValue = object[column]
@@ -19,7 +21,10 @@ const applyNumericFilter = (arrayOfObjects, filters) => {
   return filteredData
 }
 
-const filterDataByNumericValues = (dataToBeFiltered, usedFiltersData) =>
+const filterDataByNumericValues = (
+  dataToBeFiltered: IPlanets[],
+  usedFiltersData: NumericFilter[],
+) =>
   usedFiltersData.reduce((accumulator, currentFilter) => {
     const result = applyNumericFilter(accumulator, currentFilter)
     return result
