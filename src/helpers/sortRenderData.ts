@@ -1,4 +1,6 @@
-const sortRenderData = (filteredData, filterSortRadio) => {
+import { IPlanets, SortState } from '../Types'
+
+const sortRenderData = (filteredData: IPlanets[], filterSortRadio: SortState) => {
   const { column, sort } = filterSortRadio.order
   const result = [...filteredData].sort((a, b) => {
     if (a[column] === 'unknown') {

@@ -27,7 +27,7 @@ export type FilterContextType = {
   setUsedFiltersData: React.Dispatch<React.SetStateAction<NumericFilter[]>>
   setFilterSortRadio: React.Dispatch<React.SetStateAction<SortState>>
   setSortData: React.Dispatch<React.SetStateAction<any | null>>
-  sortData: any | null
+  sortData: SortState | null
   searchPlanetValue: string
   usedFiltersData: NumericFilter[]
   filterSortRadio: SortState
